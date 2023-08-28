@@ -7,7 +7,7 @@ class MeditationPage extends StatefulWidget {
   State<MeditationPage> createState() => _MeditationPageState();
 }
 
-class _MeditationPageState extends State<MeditationPage>{
+class _MeditationPageState extends State<MeditationPage> {
   Timer? countdownTimer;
   Duration myDuration = const Duration(days: 5);
   @override
@@ -15,17 +15,21 @@ class _MeditationPageState extends State<MeditationPage>{
     super.initState();
     startTimer();
   }
+
   void startTimer() {
     countdownTimer =
         Timer.periodic(Duration(seconds: 1), (_) => setCountDown());
   }
+
   void stopTimer() {
     setState(() => countdownTimer!.cancel());
   }
+
   void resetTimer() {
     stopTimer();
     setState(() => myDuration = Duration(seconds: 0));
   }
+
   void setCountDown() {
     const increaseSecondsBy = 1;
     setState(() {
@@ -38,10 +42,12 @@ class _MeditationPageState extends State<MeditationPage>{
       }
     });
   }
+
   @override
-  void dispose(){
+  void dispose() {
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     String strDigits(int n) => n.toString().padLeft(2, '0');
@@ -64,18 +70,28 @@ class _MeditationPageState extends State<MeditationPage>{
             Container(
               alignment: Alignment.center,
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height/10,
+              height: MediaQuery.of(context).size.height / 10,
               decoration: const BoxDecoration(
-                color: Colors.lightBlueAccent,
-                borderRadius: BorderRadius.only(bottomRight: Radius.circular(30),bottomLeft: Radius.circular(30)),
+                gradient: LinearGradient(colors: [
+                  Color.fromRGBO(45, 153, 230, 1),
+                  Color.fromRGBO(101, 190, 255, 1),
+                  Color.fromRGBO(126, 235, 222, 1)
+                ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(30),
+                    bottomLeft: Radius.circular(30)),
               ),
-              child: const Text('Meditation',style: TextStyle(color: Colors.white,fontSize: 30),),
+              child: const Text(
+                'Meditation',
+                style: TextStyle(color: Colors.white, fontSize: 30),
+              ),
             ),
             //Timer
             Container(
               alignment: Alignment.topCenter,
-              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/6),
-              child:Text(
+              padding:
+                  EdgeInsets.only(top: MediaQuery.of(context).size.height / 6),
+              child: Text(
                 '$hours:$minutes:$seconds',
                 style: const TextStyle(
                     fontWeight: FontWeight.bold,
@@ -86,33 +102,43 @@ class _MeditationPageState extends State<MeditationPage>{
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: Container(
-                  alignment: Alignment.center,
-                  height: MediaQuery.of(context).size.height/13,
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: Colors.white
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      IconButton(onPressed: (){}, icon: const Icon(Icons.arrow_back_ios_new,size: 30,)),
-                      IconButton(onPressed: (){}, icon: const Icon(Icons.list_rounded,size: 30,)),
-                      IconButton(onPressed: (){}, icon: const Icon(Icons.settings,size: 30,))
-                    ],
-                  ),
-                )
-              ),
-
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: MediaQuery.of(context).size.height / 13,
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: Colors.white),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.arrow_back_ios_new,
+                              size: 30,
+                            )),
+                        IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.list_rounded,
+                              size: 30,
+                            )),
+                        IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.settings,
+                              size: 30,
+                            ))
+                      ],
+                    ),
+                  )),
             )
           ],
         ),
       ),
-
     );
   }
-
 }
