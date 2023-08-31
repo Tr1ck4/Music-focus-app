@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:flutter/services.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class MeditationPage extends StatefulWidget {
   const MeditationPage({super.key});
@@ -10,9 +12,26 @@ class MeditationPage extends StatefulWidget {
 class _MeditationPageState extends State<MeditationPage>{
   Timer? countdownTimer;
   Duration myDuration = const Duration(days: 5);
+  final _audioPlayer = AudioPlayer();
+  bool isPlaying = false;
+  Duration duration = Duration.zero;
+  Duration position = Duration.zero;
   @override
   void initState() {
     super.initState();
+    _audioPlayer.onPlayerStateChanged.listen((state) {
+      setState(() {
+        isPlaying = state== PlayerState.playing;
+      });
+    });
+    _audioPlayer.onDurationChanged.listen((newDuration) {
+      setState(() {
+        duration = newDuration;
+      });
+    });
+    _audioPlayer.onPositionChanged.listen((newPosition) {
+      position = newPosition;
+    });
     startTimer();
   }
   void startTimer() {
@@ -31,15 +50,12 @@ class _MeditationPageState extends State<MeditationPage>{
     setState(() {
       final seconds = myDuration.inSeconds + increaseSecondsBy;
       final hours = myDuration.inHours;
-      if (hours > 99) {
-        countdownTimer!.cancel();
-      } else {
-        myDuration = Duration(seconds: seconds);
-      }
+      myDuration = Duration(seconds: seconds);
     });
   }
   @override
   void dispose(){
+    _audioPlayer.dispose();
     super.dispose();
   }
   @override
@@ -106,12 +122,40 @@ class _MeditationPageState extends State<MeditationPage>{
                   ),
                 )
               ),
+            ),
+            Align(
+              child: Slider(
 
+                min: 0,
+                max: duration.inSeconds.toDouble(),
+                value: position.inSeconds.toDouble(),
+                onChanged: (value) async {
+                  final position = Duration(seconds:value.toInt());
+                  await _audioPlayer.seek(position);
+                  await _audioPlayer.resume();
+                }
+              ),
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: Padding(
+                padding: EdgeInsets.only(top: 50),
+                child: IconButton(
+                  icon: const Icon(Icons.play_arrow),
+                  onPressed: () async {
+                    if(isPlaying){
+                      await _audioPlayer.pause();
+                    }else{
+                      await _audioPlayer.play(AssetSource('audio/music.mp3'));
+                    }
+                  },
+                ),
+              )
+              
             )
           ],
         ),
       ),
-
     );
   }
 
