@@ -1,6 +1,8 @@
+import 'package:cs486/SettingPage.dart';
 import 'package:flutter/material.dart';
 import 'Homepage.dart';
 import 'MeditationPage.dart';
+import 'SettingPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MeditationPage(),
+      home: const SettingPage(),
     );
   }
 }
