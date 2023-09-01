@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'MeditationPage.dart';
 class CustomModeButton extends StatelessWidget{
   final String mod;
   final String text;
@@ -64,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   CustomModeButton(mod: "assets/meditationbox.png", text: "Meditation", onPressed: () {
-
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const MeditationPage(),));
                   },),
                   const SizedBox(height: 20,),
                   CustomModeButton(mod: "assets/workoutbox.png", text: "Workout", onPressed: () {
@@ -85,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 alignment: Alignment.bottomCenter,
                 padding: const EdgeInsets.fromLTRB(0, 0, 10,100),
                 child: IconButton(onPressed: (){}, icon: const Icon(Icons.settings,size: 50,color: Colors.white,))
-            )
+            ),
 
           ],
         )
