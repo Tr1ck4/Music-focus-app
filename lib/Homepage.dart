@@ -1,3 +1,4 @@
+import 'package:cs486/SettingPage.dart';
 import 'package:flutter/material.dart';
 import 'MeditationPage.dart';
 
@@ -115,7 +116,13 @@ class _MyHomePageState extends State<MyHomePage> {
             alignment: Alignment.bottomCenter,
             padding: const EdgeInsets.fromLTRB(0, 0, 10, 100),
             child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SettingPage(),
+                      ));
+                },
                 icon: const Icon(
                   Icons.settings,
                   size: 50,

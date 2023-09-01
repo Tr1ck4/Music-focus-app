@@ -36,7 +36,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   audioplayers: ^5.1.0
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -67,6 +66,13 @@ flutter:
     - assets/Settingpage.png
     - assets/audio/music.mp3
     - assets/audio/direct.mp3
+    - assets/icon/user.png
+    - assets/icon/recent.png
+    - assets/icon/tracks.png
+    - assets/icon/liked.png
+    - assets/icon/notliked.png
+    - assets/icon/download.png
+    - assets/app_ava/ava1.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
