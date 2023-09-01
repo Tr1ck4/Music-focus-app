@@ -22,6 +22,25 @@ class _SettingPageState extends State<SettingPage> {
               ),
             ),
           ),
+          Padding(
+            padding: EdgeInsets.all(50),
+            child: Column(children: [
+              SizedBox(
+                height: 30,
+              ),
+              Row(
+                children: [
+                  Text(
+                    'Username',
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                ],
+              )
+            ]),
+          )
         ],
       )),
     );
