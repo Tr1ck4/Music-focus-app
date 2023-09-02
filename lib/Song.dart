@@ -15,6 +15,12 @@ List<Song> meditation = [
 class Playlist extends StatefulWidget {
   final String list_name;
   final List<Song> playlist;
+
+  int numSong() {
+    int songs = playlist.length;
+    return songs;
+  }
+
   const Playlist({super.key, required this.list_name, required this.playlist});
   @override
   State<Playlist> createState() => _PlaylistState();

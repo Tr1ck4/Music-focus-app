@@ -1,4 +1,5 @@
 import 'package:cs486/Homepage.dart';
+import 'package:cs486/PlaylistPage.dart';
 import 'package:flutter/material.dart';
 
 class SettingPage extends StatefulWidget {
@@ -152,7 +153,13 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                   Center(
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const PlaylistPage(),
+                            ));
+                      },
                       child: Container(
                         height: 50,
                         width: 200,
@@ -173,7 +180,7 @@ class _SettingPageState extends State<SettingPage> {
                             ]),
                         child: const Center(
                           child: Text(
-                            'Recent',
+                            'Playists',
                             style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,

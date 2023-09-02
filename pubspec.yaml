@@ -74,6 +74,7 @@ flutter:
     - assets/icon/notliked.png
     - assets/icon/download.png
     - assets/icon/album.png
+    - assets/icon/playlist.png
     - assets/app_ava/ava1.png
   # To add assets to your application, add an assets section, like this:
   # assets:
