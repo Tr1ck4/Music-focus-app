@@ -35,6 +35,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   audioplayers: ^5.1.0
+  google_fonts: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +73,7 @@ flutter:
     - assets/icon/liked.png
     - assets/icon/notliked.png
     - assets/icon/download.png
+    - assets/icon/album.png
     - assets/app_ava/ava1.png
   # To add assets to your application, add an assets section, like this:
   # assets:

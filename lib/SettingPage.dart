@@ -36,7 +36,7 @@ class _SettingPageState extends State<SettingPage> {
                     "assets/icon/user.png",
                     height: 50,
                     width: 50,
-                    color: Colors.deepPurpleAccent.shade200,
+                    color: const Color.fromARGB(255, 129, 92, 230),
                   ),
                   Center(
                     child: GestureDetector(
