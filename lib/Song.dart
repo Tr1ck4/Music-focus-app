@@ -12,6 +12,10 @@ List<Song> meditation = [
   Song('direct', 'audio/direct.mp3')
 ];
 
+List<Playlist> storage = [
+  Playlist(list_name: 'meditation', playlist: meditation)
+];
+
 class Playlist extends StatefulWidget {
   final String list_name;
   final List<Song> playlist;
