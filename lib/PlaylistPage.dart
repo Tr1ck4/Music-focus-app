@@ -26,7 +26,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
           Padding(
             padding: EdgeInsets.all(40),
             child: Column(
-              children: [],
+              children: [Text('da')],
             ),
           )
         ],
