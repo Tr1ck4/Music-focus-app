@@ -1,3 +1,6 @@
+import 'package:cs486/SleepPage.dart';
+import 'package:cs486/StudyPage.dart';
+import 'package:cs486/WorkoutPage.dart';
 import 'package:flutter/material.dart';
 import 'MeditationPage.dart';
 class CustomModeButton extends StatelessWidget{
@@ -69,15 +72,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   },),
                   const SizedBox(height: 20,),
                   CustomModeButton(mod: "assets/workoutbox.png", text: "Workout", onPressed: () {
-
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const WorkoutPage(),));
                   },),
                   const SizedBox(height: 20,),
                   CustomModeButton(mod: "assets/studybox.png", text: "Study", onPressed: () {
-
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const StudyPage(),));
                   },),
                   const SizedBox(height: 20,),
                   CustomModeButton(mod: "assets/sleepbox.png", text: "Sleep", onPressed: () {
-
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SleepPage(),));
                   },),
                 ],
               ),
