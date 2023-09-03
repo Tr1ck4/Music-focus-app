@@ -1,15 +1,16 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cs486/SettingPage.dart';
+import 'package:cs486/Song.dart';
 import 'package:flutter/material.dart';
-import 'Song.dart';
 
-class PlaylistPage extends StatefulWidget {
-  const PlaylistPage({super.key});
+class LikedTrackPage extends StatefulWidget {
+  const LikedTrackPage({super.key});
 
   @override
-  State<PlaylistPage> createState() => _PlaylistPageState();
+  State<LikedTrackPage> createState() => _LikedTrackPageState();
 }
 
-class _PlaylistPageState extends State<PlaylistPage> {
+class _LikedTrackPageState extends State<LikedTrackPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +27,10 @@ class _PlaylistPageState extends State<PlaylistPage> {
           ),
           Padding(
               padding: EdgeInsets.all(40),
-              child: Album(album_name: 'Default', album: album)),
+              child: Playlist(
+                  list_name: 'Liked',
+                  playlist: liked,
+                  audioPlayer: AudioPlayer())),
           Padding(
             padding: EdgeInsets.fromLTRB(0, 20, 0, 40),
             child: Container(

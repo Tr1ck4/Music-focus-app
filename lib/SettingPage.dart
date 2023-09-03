@@ -1,4 +1,5 @@
 import 'package:cs486/Homepage.dart';
+import 'package:cs486/LikedTrackPage.dart';
 import 'package:cs486/PlaylistPage.dart';
 import 'package:flutter/material.dart';
 
@@ -72,24 +73,6 @@ class _SettingPageState extends State<SettingPage> {
                       ),
                     ),
                   ),
-                  // Stack(
-                  //   alignment: Alignment.center,
-                  //   children: [
-                  //     Container(
-                  //         height: 50,
-                  //         width: 200,
-                  //         decoration: BoxDecoration(
-                  //             borderRadius: BorderRadius.circular(10),
-                  //             color: Colors.white.withOpacity(0.3))),
-                  //     Text(
-                  //       'Username',
-                  //       style: TextStyle(
-                  //           fontSize: 24,
-                  //           fontWeight: FontWeight.bold,
-                  //           color: Colors.redAccent),
-                  //     ),
-                  //   ],
-                  // )
                 ],
               ),
               const SizedBox(
@@ -106,7 +89,13 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                   Center(
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LikedTrackPage(),
+                            ));
+                      },
                       child: Container(
                         height: 50,
                         width: 200,
@@ -146,7 +135,7 @@ class _SettingPageState extends State<SettingPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Image.asset(
-                    "assets/icon/recent.png",
+                    "assets/icon/playlist.png",
                     height: 50,
                     width: 50,
                     color: Colors.cyanAccent.shade700,
