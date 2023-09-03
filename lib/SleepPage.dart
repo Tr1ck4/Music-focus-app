@@ -64,6 +64,7 @@ class _SleepPageState extends State<SleepPage> {
 
   void setCountDown() {
     const increaseSecondsBy = 1;
+    if(!mounted){return;}
     setState(() {
       final seconds = myDuration.inSeconds + increaseSecondsBy;
       myDuration = Duration(seconds: seconds);

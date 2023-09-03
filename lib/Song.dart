@@ -12,6 +12,7 @@ List<Song> meditation =  [Song('Forest sounds','audio/Meditation/forest_sounds.m
 List<Song> sleep =  [Song('Sleeping City','audio/Sleep/SleepingCity_JayLounge.mp3'),Song('WYS', 'audio/Sleep/WYS_LoneftEase.mp3')];
 List<Song> workout =  [Song('Conquer','audio/Workout/Conquer_Hopex.mp3'),Song('IDidThatDiamond_Ortiz', 'audio/Workout/IDidThatDiamond_Ortiz.mp3')];
 List<Song> study =  [Song('Causes_geek','audio/Study/Causes_geek.mp3'),Song('VoiceOfTheForest_YasumuxNo', 'audio/Study/VoiceOfTheForest_YasumuxNo Spirit.mp3')];
+
 class Playlist extends StatefulWidget{
   final AudioPlayer audioPlayer;
   final String list_name;

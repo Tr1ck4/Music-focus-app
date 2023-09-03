@@ -64,6 +64,7 @@ class _StudyPageState extends State<StudyPage> {
 
   void setCountDown() {
     const increaseSecondsBy = 1;
+    if(!mounted){return;}
     setState(() {
       final seconds = myDuration.inSeconds + increaseSecondsBy;
       myDuration = Duration(seconds: seconds);

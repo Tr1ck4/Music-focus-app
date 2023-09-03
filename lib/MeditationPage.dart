@@ -64,6 +64,7 @@ class _MeditationPageState extends State<MeditationPage> {
 
   void setCountDown() {
     const increaseSecondsBy = 1;
+    if(!mounted) {return;}
     setState(() {
       final seconds = myDuration.inSeconds + increaseSecondsBy;
       myDuration = Duration(seconds: seconds);
@@ -227,7 +228,7 @@ class _MeditationPageState extends State<MeditationPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
-                    onPressed: () async {
+                    onPressed: () {
                       setState(() {
                         if(index <0)
                         {index=meditation.length-1;}else{
@@ -249,7 +250,7 @@ class _MeditationPageState extends State<MeditationPage> {
                     },
                   ),
                   IconButton(
-                    onPressed: () async {
+                    onPressed: () {
                       setState(() {
                         if(index >= meditation.length-1)
                         {index=0;}else{
