@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Song{
   final String name;
@@ -43,9 +44,9 @@ class _PlaylistState extends State<Playlist>{
 }
 
 
-List<Playlist> storage = [
-  Playlist(list_name: 'meditation', playlist: meditation)
-];
+// List<Playlist> storage = [
+//   Playlist(list_name: 'meditation', playlist: meditation)
+// ];
 
 class Playlist2 extends StatefulWidget {
   final String list_name;

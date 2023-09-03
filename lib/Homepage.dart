@@ -1,6 +1,9 @@
-import 'package:cs486/SettingPage.dart';
+import 'SettingPage.dart';
 import 'package:flutter/material.dart';
 import 'MeditationPage.dart';
+import 'SleepPage.dart';
+import 'StudyPage.dart';
+import 'WorkoutPage.dart';
 
 class CustomModeButton extends StatelessWidget {
   final String mod;
@@ -74,41 +77,21 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
-              CustomModeButton(
-                mod: "assets/meditationbox.png",
-                text: "Meditation",
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const MeditationPage(),
-                      ));
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              CustomModeButton(
-                mod: "assets/workoutbox.png",
-                text: "Workout",
-                onPressed: () {},
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              CustomModeButton(
-                mod: "assets/studybox.png",
-                text: "Study",
-                onPressed: () {},
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              CustomModeButton(
-                mod: "assets/sleepbox.png",
-                text: "Sleep",
-                onPressed: () {},
-              ),
+              CustomModeButton(mod: "assets/meditationbox.png", text: "Meditation", onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const MeditationPage(),));
+              },),
+              const SizedBox(height: 20,),
+              CustomModeButton(mod: "assets/workoutbox.png", text: "Workout", onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const WorkoutPage(),));
+              },),
+              const SizedBox(height: 20,),
+              CustomModeButton(mod: "assets/studybox.png", text: "Study", onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const StudyPage(),));
+              },),
+              const SizedBox(height: 20,),
+              CustomModeButton(mod: "assets/sleepbox.png", text: "Sleep", onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const SleepPage(),));
+              },),
             ],
           ),
         ),

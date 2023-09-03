@@ -64,6 +64,8 @@ flutter:
     - assets/studybox.png
     - assets/workoutbox.png
     - assets/Meditationpage.png
+    - assets/WorkoutPage.png
+    - assets/SleepPage.png
     - assets/Settingpage.png
     - assets/audio/music.mp3
     - assets/audio/direct.mp3
@@ -76,6 +78,17 @@ flutter:
     - assets/icon/album.png
     - assets/icon/playlist.png
     - assets/app_ava/ava1.png
+    - assets/audio/Meditation/forest_sounds.mp3
+    - assets/audio/Meditation/waterfall_sounds.mp3
+    - assets/audio/Sleep/SleepingCity_JayLounge.mp3
+    - assets/audio/Sleep/WYS_LoneftEase.mp3
+    - assets/audio/Study/Causes_geek.mp3
+    - assets/audio/Study/VoiceOfTheForest_YasumuxNo Spirit.mp3
+    - assets/audio/Workout/Conquer_Hopex.mp3
+    - assets/audio/Workout/IDidThatDiamond_Ortiz.mp3
+    - assets/Sleep.png
+    - assets/Study.png
+    - assets/Workout.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
