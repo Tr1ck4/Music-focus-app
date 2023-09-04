@@ -1,11 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:cs486/AddedSongPage.dart';
-import 'package:cs486/AddedTrackPage.dart';
-import 'package:cs486/LikedTrackPage.dart';
-import 'package:cs486/MeditationPage.dart';
-import 'package:cs486/SleepPage.dart';
-import 'package:cs486/StudyPage.dart';
-import 'package:cs486/WorkoutPage.dart';
+import 'package:cs486/PlaylistSong.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -54,6 +48,9 @@ class _PlaylistState extends State<Playlist> {
   late String _path;
   void _likeOrNot(int index) {
     setState(() {
+      if (widget.list_name == 'Added Tracks') {
+        return;
+      }
       if (widget.playlist[index].liked == false) {
         widget.playlist[index].liked == true;
       } else {
@@ -85,7 +82,7 @@ class _PlaylistState extends State<Playlist> {
                   "assets/icon/album.png",
                   height: 40,
                   width: 40,
-                  color: Color.fromARGB(255, 218, 152, 53),
+                  color: const Color.fromARGB(255, 218, 152, 53),
                 ),
                 title: Text(
                   widget.playlist[index].name,
@@ -96,7 +93,7 @@ class _PlaylistState extends State<Playlist> {
                 ),
                 subtitle: Text(
                   widget.list_name,
-                  style: TextStyle(color: Colors.white, fontSize: 12),
+                  style: const TextStyle(color: Colors.white, fontSize: 12),
                 ),
                 trailing: IconButton(
                   onPressed: () {
@@ -155,7 +152,7 @@ class _AlbumState extends State<Album> {
     return ListView.builder(
         padding: const EdgeInsets.symmetric(),
         itemCount: widget.album.length,
-        itemBuilder: (context, index) => Container(
+        itemBuilder: (context, index) => SizedBox(
             height: 100,
             child: ListTile(
               leading: Image.asset(
@@ -179,42 +176,12 @@ class _AlbumState extends State<Album> {
                     fontWeight: FontWeight.bold),
               ),
               onTap: () async {
-                if (widget.album[index].list_name == 'Meditation') {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const MeditationPage()));
-                }
-                if (widget.album[index].list_name == 'Workout') {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const WorkoutPage()));
-                }
-                if (widget.album[index].list_name == 'Study') {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const StudyPage()));
-                }
-                if (widget.album[index].list_name == 'Sleep') {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SleepPage()));
-                }
-                if (widget.album[index].list_name == 'Liked Tracks') {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LikedTrackPage()));
-                }
-                if (widget.album[index].list_name == 'Added Tracks') {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AddedTrackPage()));
-                }
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PlaylistSongPage(
+                            list_name: widget.album[index].list_name,
+                            name: widget.album[index].playlist)));
               },
             )));
   }

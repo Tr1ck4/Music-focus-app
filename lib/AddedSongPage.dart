@@ -44,13 +44,13 @@ class _AddedSongPageState extends State<AddedSongPage> {
       if (index >= added.length) {
         index = 0;
       }
-      _audioPlayer.play(AssetSource(added[index].asset));
+      _audioPlayer.play(UrlSource(added[index].asset));
     });
     startTimer();
   }
 
   Future<void> setAudio() async {
-    _audioPlayer.setSourceAsset(added[index].asset);
+    _audioPlayer.setSourceUrl(added[index].asset);
   }
 
   void startTimer() {
