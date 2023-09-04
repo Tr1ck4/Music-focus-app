@@ -1,4 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:cs486/AddedSongPage.dart';
+import 'package:cs486/AddedTrackPage.dart';
 import 'package:cs486/LikedTrackPage.dart';
 import 'package:cs486/MeditationPage.dart';
 import 'package:cs486/SleepPage.dart';
@@ -33,6 +35,7 @@ List<Song> study = [
       'audio/Study/VoiceOfTheForest_YasumuxNo Spirit.mp3', false)
 ];
 List<Song> liked = [];
+List<Song> added = [];
 
 class Playlist extends StatefulWidget {
   final AudioPlayer audioPlayer;
@@ -119,8 +122,13 @@ class _PlaylistState extends State<Playlist> {
                 ),
                 onTap: () async {
                   setState(() {
-                    widget.audioPlayer
-                        .play(AssetSource(widget.playlist[index].asset));
+                    if (widget.list_name == 'Added Tracks') {
+                      widget.audioPlayer
+                          .play(UrlSource(widget.playlist[index].asset));
+                    } else {
+                      widget.audioPlayer
+                          .play(AssetSource(widget.playlist[index].asset));
+                    }
                   });
                 },
               )));
@@ -201,6 +209,12 @@ class _AlbumState extends State<Album> {
                       MaterialPageRoute(
                           builder: (context) => const LikedTrackPage()));
                 }
+                if (widget.album[index].list_name == 'Added Tracks') {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AddedTrackPage()));
+                }
               },
             )));
   }
@@ -215,5 +229,7 @@ List<Playlist> album = [
   Playlist(list_name: 'Workout', playlist: workout, audioPlayer: AudioPlayer()),
   Playlist(list_name: 'Study', playlist: study, audioPlayer: AudioPlayer()),
   Playlist(
-      list_name: 'Liked Tracks', playlist: liked, audioPlayer: AudioPlayer())
+      list_name: 'Liked Tracks', playlist: liked, audioPlayer: AudioPlayer()),
+  Playlist(
+      list_name: 'Added Tracks', playlist: added, audioPlayer: AudioPlayer())
 ];

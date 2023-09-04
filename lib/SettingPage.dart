@@ -1,4 +1,5 @@
 import 'package:cs486/Homepage.dart';
+import 'package:cs486/ImportPage.dart';
 import 'package:cs486/LikedTrackPage.dart';
 import 'package:cs486/PlaylistPage.dart';
 import 'package:flutter/material.dart';
@@ -195,7 +196,13 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                   Center(
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ImportPage(),
+                            ));
+                      },
                       child: Container(
                         height: 50,
                         width: 200,
