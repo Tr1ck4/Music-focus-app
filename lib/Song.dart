@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 class Song {
   final String name;
   final String asset;
-  final bool liked;
+  late bool liked;
   Song(this.name, this.asset, this.liked);
 }
 
@@ -31,6 +31,51 @@ List<Song> study = [
 List<Song> liked = [];
 List<Song> added = [];
 
+class MyIconButton extends StatefulWidget {
+  late Song song;
+  late String playlist;
+  MyIconButton({super.key,required this.song,required this.playlist});
+  @override
+  State<MyIconButton> createState() => _MyIconButtonState();
+}
+
+class _MyIconButtonState extends State<MyIconButton> {
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        setState(() {
+          if(widget.playlist !='Added Tracks'){
+            widget.song.liked =!widget.song.liked;
+            if(widget.song.liked){
+              liked.add(Song(
+                  widget.song.name,
+                  widget.song.asset,
+                  widget.song.liked));
+            }
+            else{
+              liked.removeWhere((element) => element.name == widget.song.name);
+            }
+          }
+        });
+      },
+      icon: widget.song.liked
+          ? Image.asset(
+        "assets/icon/liked.png",
+        height: 20,
+        width: 20,
+        color: Colors.red,
+      )
+          : Image.asset(
+        "assets/icon/notliked.png",
+        height: 20,
+        width: 20,
+        color: Colors.white,
+      ),
+    );
+  }
+}
 class Playlist extends StatefulWidget {
   final AudioPlayer audioPlayer;
   final String list_name;
@@ -95,28 +140,7 @@ class _PlaylistState extends State<Playlist> {
                   widget.list_name,
                   style: const TextStyle(color: Colors.white, fontSize: 12),
                 ),
-                trailing: IconButton(
-                  onPressed: () {
-                    _likeOrNot(index);
-                    liked.add(Song(
-                        widget.playlist[index].name,
-                        widget.playlist[index].asset,
-                        widget.playlist[index].liked));
-                  },
-                  icon: widget.playlist[index].liked
-                      ? Image.asset(
-                          "assets/icon/liked.png",
-                          height: 20,
-                          width: 20,
-                          color: Colors.red,
-                        )
-                      : Image.asset(
-                          "assets/icon/notliked.png",
-                          height: 20,
-                          width: 20,
-                          color: Colors.white,
-                        ),
-                ),
+                trailing: MyIconButton(playlist: widget.list_name,song: widget.playlist[index]),
                 onTap: () async {
                   setState(() {
                     if (widget.list_name == 'Added Tracks') {
