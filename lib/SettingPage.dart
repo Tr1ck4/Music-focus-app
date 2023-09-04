@@ -3,6 +3,7 @@ import 'package:cs486/ImportPage.dart';
 import 'package:cs486/LikedTrackPage.dart';
 import 'package:cs486/PlaylistPage.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -30,51 +31,14 @@ class _SettingPageState extends State<SettingPage> {
             padding: const EdgeInsets.all(40),
             child: Column(children: [
               const SizedBox(
-                height: 30,
+                height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Image.asset(
-                    "assets/icon/user.png",
-                    height: 50,
-                    width: 50,
-                    color: const Color.fromARGB(255, 129, 92, 230),
-                  ),
-                  Center(
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        height: 50,
-                        width: 200,
-                        decoration: BoxDecoration(
-                            color: const Color.fromRGBO(156, 38, 68, 1),
-                            borderRadius: BorderRadius.circular(15),
-                            boxShadow: const [
-                              BoxShadow(
-                                  color: Color.fromRGBO(197, 26, 120, 1),
-                                  spreadRadius: 1,
-                                  blurRadius: 8,
-                                  offset: Offset(4, 4)),
-                              BoxShadow(
-                                  color: Color.fromRGBO(151, 38, 136, 1),
-                                  spreadRadius: 1,
-                                  blurRadius: 8,
-                                  offset: Offset(-4, -4))
-                            ]),
-                        child: const Center(
-                          child: Text(
-                            'Username',
-                            style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+              Text(
+                'Welcome to Setting Page !',
+                style: GoogleFonts.pacifico(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               ),
               const SizedBox(
                 height: 40,
