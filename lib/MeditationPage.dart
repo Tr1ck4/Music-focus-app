@@ -1,4 +1,5 @@
 import 'package:cs486/Homepage.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'Task.dart';
 import 'package:flutter/material.dart';
@@ -51,11 +52,13 @@ class _MeditationPageState extends State<MeditationPage> {
   Future<void> setAudio() async {
     _audioPlayer.setSourceAsset(meditation[index].asset);
   }
-  void reset(){
+
+  void reset() {
     setState(() {
       print('reset');
     });
   }
+
   void startTimer() {
     countdownTimer =
         Timer.periodic(const Duration(seconds: 1), (_) => setCountDown());
@@ -119,9 +122,12 @@ class _MeditationPageState extends State<MeditationPage> {
                     bottomRight: Radius.circular(30),
                     bottomLeft: Radius.circular(30)),
               ),
-              child: const Text(
+              child: Text(
                 'Meditation',
-                style: TextStyle(color: Colors.white, fontSize: 30),
+                style: GoogleFonts.pacifico(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: const Color.fromARGB(255, 0, 0, 0)),
               ),
             ),
             //Timer
@@ -188,18 +194,17 @@ class _MeditationPageState extends State<MeditationPage> {
                                           itemCount: meditation_Task.length,
                                           itemBuilder: (context, index) =>
                                               Container(
-                                                  decoration: const BoxDecoration(
-                                                    border: Border(
-                                                        bottom: BorderSide(
-                                                            color: Colors
-                                                                .white,
-                                                            width: 2))),
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          border: Border(
+                                                              bottom: BorderSide(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  width: 2))),
                                                   child: MyListTile(
-                                                      task: meditation_Task[index],
-                                                  )
-                                              )
-                                      )
-                                  );
+                                                    task:
+                                                        meditation_Task[index],
+                                                  ))));
                                 },
                               );
                             },
@@ -331,26 +336,23 @@ class _MeditationPageState extends State<MeditationPage> {
 
 class MyListTile extends StatefulWidget {
   late Tasks task;
-  MyListTile({super.key,required this.task});
+  MyListTile({super.key, required this.task});
 
   @override
   State<MyListTile> createState() => _MyListTileState();
 }
 
 class _MyListTileState extends State<MyListTile> {
-
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        title: Text(
-            widget.task.task),
-      leading: IconButton(
-        icon: Icon(widget.task.like? Icons.album_outlined: Icons.album),
-        onPressed: () {
-          setState(() {
-            widget.task.like= !widget.task.like;
-          });
-        }
-    ));
+        title: Text(widget.task.task),
+        leading: IconButton(
+            icon: Icon(widget.task.like ? Icons.album_outlined : Icons.album),
+            onPressed: () {
+              setState(() {
+                widget.task.like = !widget.task.like;
+              });
+            }));
   }
 }

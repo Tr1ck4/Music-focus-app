@@ -1,4 +1,5 @@
 import 'package:cs486/Homepage.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'Task.dart';
 import 'package:flutter/material.dart';
@@ -106,14 +107,21 @@ class _StudyPageState extends State<StudyPage> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height / 10,
               decoration: const BoxDecoration(
-                image: DecorationImage(image: AssetImage('assets/Study.png')),
+                gradient: LinearGradient(colors: [
+                  Color.fromRGBO(8, 146, 26, 1),
+                  Color.fromRGBO(76, 194, 53, 1),
+                  Color.fromRGBO(58, 184, 110, 1)
+                ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
                 borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(30),
                     bottomLeft: Radius.circular(30)),
               ),
-              child: const Text(
+              child: Text(
                 'Study',
-                style: TextStyle(color: Colors.white, fontSize: 30),
+                style: GoogleFonts.pacifico(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: const Color.fromARGB(255, 0, 0, 0)),
               ),
             ),
             //Timer
@@ -187,7 +195,9 @@ class _StudyPageState extends State<StudyPage> {
                                                                   color: Colors
                                                                       .white,
                                                                   width: 2))),
-                                                  child: MyListTile(task: study_Task[index],))));
+                                                  child: MyListTile(
+                                                    task: study_Task[index],
+                                                  ))));
                                 },
                               );
                             },
@@ -316,29 +326,26 @@ class _StudyPageState extends State<StudyPage> {
     );
   }
 }
+
 class MyListTile extends StatefulWidget {
   late Tasks task;
-  MyListTile({super.key,required this.task});
+  MyListTile({super.key, required this.task});
 
   @override
   State<MyListTile> createState() => _MyListTileState();
 }
 
 class _MyListTileState extends State<MyListTile> {
-
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        title: Text(
-            widget.task.task),
+        title: Text(widget.task.task),
         leading: IconButton(
-            icon: Icon(widget.task.like? Icons.album_outlined: Icons.album),
+            icon: Icon(widget.task.like ? Icons.album_outlined : Icons.album),
             onPressed: () {
               setState(() {
-                widget.task.like= !widget.task.like;
+                widget.task.like = !widget.task.like;
               });
-            }
-        ));
+            }));
   }
 }
-

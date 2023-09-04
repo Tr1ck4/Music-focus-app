@@ -2,6 +2,7 @@
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cs486/AddedSongPage.dart';
+import 'package:cs486/LikeSongPage.dart';
 import 'package:cs486/LikedTrackPage.dart';
 import 'package:cs486/MeditationPage.dart';
 import 'package:cs486/PlaylistPage.dart';
@@ -99,7 +100,7 @@ class _PlaylistSongPageState extends State<PlaylistSongPage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const LikedTrackPage()));
+                                          const LikedSongPage()));
                             }
                             if (widget.list_name == 'Added Tracks') {
                               Navigator.push(

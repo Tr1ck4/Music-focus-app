@@ -1,20 +1,19 @@
 import 'package:cs486/Homepage.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'Task.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'Song.dart';
 
-class AddedSongPage extends StatefulWidget {
-  const AddedSongPage({super.key});
+class LikedSongPage extends StatefulWidget {
+  const LikedSongPage({super.key});
 
   @override
-  State<AddedSongPage> createState() => _AddedSongPageState();
+  State<LikedSongPage> createState() => _LikedSongPageState();
 }
 
-class _AddedSongPageState extends State<AddedSongPage> {
+class _LikedSongPageState extends State<LikedSongPage> {
   int index = 0;
   Timer? countdownTimer;
   Duration myDuration = const Duration(days: 0);
@@ -42,16 +41,16 @@ class _AddedSongPageState extends State<AddedSongPage> {
     _audioPlayer.onPlayerComplete.listen((event) {
       position = Duration.zero;
       index++;
-      if (index >= added.length) {
+      if (index >= study.length) {
         index = 0;
       }
-      _audioPlayer.play(UrlSource(added[index].asset));
+      _audioPlayer.play(AssetSource(study[index].asset));
     });
     startTimer();
   }
 
   Future<void> setAudio() async {
-    _audioPlayer.setSourceUrl(added[index].asset);
+    _audioPlayer.setSourceAsset(study[index].asset);
   }
 
   void startTimer() {
@@ -109,20 +108,20 @@ class _AddedSongPageState extends State<AddedSongPage> {
               height: MediaQuery.of(context).size.height / 10,
               decoration: const BoxDecoration(
                 gradient: LinearGradient(colors: [
-                  Color.fromRGBO(128, 29, 60, 1),
-                  Color.fromRGBO(192, 200, 206, 1),
-                  Color.fromRGBO(75, 68, 146, 1)
+                  Color.fromRGBO(54, 11, 52, 0.589),
+                  Color.fromRGBO(201, 65, 183, 1),
+                  Color.fromRGBO(255, 255, 255, 1)
                 ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
                 borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(30),
                     bottomLeft: Radius.circular(30)),
               ),
               child: Text(
-                'Added',
+                'Liked',
                 style: GoogleFonts.pacifico(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 0, 0, 0)),
+                    color: const Color.fromARGB(255, 0, 0, 0)),
               ),
             ),
             //Timer
@@ -232,10 +231,10 @@ class _AddedSongPageState extends State<AddedSongPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     IconButton(
-                      onPressed: () {
+                      onPressed: () async {
                         setState(() {
                           if (index < 0) {
-                            index = added.length - 1;
+                            index = liked.length - 1;
                           } else {
                             index--;
                           }
@@ -259,9 +258,9 @@ class _AddedSongPageState extends State<AddedSongPage> {
                       },
                     ),
                     IconButton(
-                      onPressed: () {
+                      onPressed: () async {
                         setState(() {
-                          if (index >= added.length - 1) {
+                          if (index >= liked.length - 1) {
                             index = 0;
                           } else {
                             index++;
@@ -282,8 +281,8 @@ class _AddedSongPageState extends State<AddedSongPage> {
               child: SizedBox(
                 height: MediaQuery.of(context).size.height / 4,
                 child: Playlist(
-                    list_name: 'Added Tracks',
-                    playlist: added,
+                    list_name: 'Liked Tracks',
+                    playlist: liked,
                     audioPlayer: _audioPlayer),
               ),
             ),
@@ -291,5 +290,28 @@ class _AddedSongPageState extends State<AddedSongPage> {
         ),
       ),
     );
+  }
+}
+
+class MyListTile extends StatefulWidget {
+  late Tasks task;
+  MyListTile({super.key, required this.task});
+
+  @override
+  State<MyListTile> createState() => _MyListTileState();
+}
+
+class _MyListTileState extends State<MyListTile> {
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+        title: Text(widget.task.task),
+        leading: IconButton(
+            icon: Icon(widget.task.like ? Icons.album_outlined : Icons.album),
+            onPressed: () {
+              setState(() {
+                widget.task.like = !widget.task.like;
+              });
+            }));
   }
 }
