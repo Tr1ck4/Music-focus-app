@@ -51,7 +51,11 @@ class _MeditationPageState extends State<MeditationPage> {
   Future<void> setAudio() async {
     _audioPlayer.setSourceAsset(meditation[index].asset);
   }
-
+  void reset(){
+    setState(() {
+      print('reset');
+    });
+  }
   void startTimer() {
     countdownTimer =
         Timer.periodic(const Duration(seconds: 1), (_) => setCountDown());
@@ -184,41 +188,18 @@ class _MeditationPageState extends State<MeditationPage> {
                                           itemCount: meditation_Task.length,
                                           itemBuilder: (context, index) =>
                                               Container(
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                          border: Border(
-                                                              bottom: BorderSide(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  width: 2))),
-                                                  child: ListTile(
-                                                      title: Text(
-                                                          meditation_Task[index]
-                                                              .task),
-                                                      leading: IconButton(
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            meditation_Task[
-                                                                        index]
-                                                                    .like =
-                                                                !meditation_Task[
-                                                                        index]
-                                                                    .like;
-                                                            print(meditation_Task[
-                                                                        index]
-                                                                    .like
-                                                                ? 1
-                                                                : 0);
-                                                          });
-                                                        },
-                                                        icon: meditation_Task[
-                                                                    index]
-                                                                .like
-                                                            ? const Icon(Icons
-                                                                .album_outlined)
-                                                            : const Icon(
-                                                                Icons.album),
-                                                      )))));
+                                                  decoration: const BoxDecoration(
+                                                    border: Border(
+                                                        bottom: BorderSide(
+                                                            color: Colors
+                                                                .white,
+                                                            width: 2))),
+                                                  child: MyListTile(
+                                                      task: meditation_Task[index],
+                                                  )
+                                              )
+                                      )
+                                  );
                                 },
                               );
                             },
@@ -345,5 +326,31 @@ class _MeditationPageState extends State<MeditationPage> {
         ),
       ),
     );
+  }
+}
+
+class MyListTile extends StatefulWidget {
+  late Tasks task;
+  MyListTile({super.key,required this.task});
+
+  @override
+  State<MyListTile> createState() => _MyListTileState();
+}
+
+class _MyListTileState extends State<MyListTile> {
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+        title: Text(
+            widget.task.task),
+      leading: IconButton(
+        icon: Icon(widget.task.like? Icons.album_outlined: Icons.album),
+        onPressed: () {
+          setState(() {
+            widget.task.like= !widget.task.like;
+          });
+        }
+    ));
   }
 }

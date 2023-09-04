@@ -187,32 +187,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                                   color: Colors
                                                                       .white,
                                                                   width: 2))),
-                                                  child: ListTile(
-                                                      title: Text(
-                                                          work_Task[index]
-                                                              .task),
-                                                      leading: IconButton(
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            work_Task[index]
-                                                                    .like =
-                                                                !work_Task[
-                                                                        index]
-                                                                    .like;
-                                                            print(
-                                                                work_Task[index]
-                                                                        .like
-                                                                    ? 1
-                                                                    : 0);
-                                                          });
-                                                        },
-                                                        icon: work_Task[index]
-                                                                .like
-                                                            ? const Icon(Icons
-                                                                .album_outlined)
-                                                            : const Icon(
-                                                                Icons.album),
-                                                      )))));
+                                                  child: MyListTile(task: work_Task[index],))));
                                 },
                               );
                             },
@@ -341,3 +316,30 @@ class _WorkoutPageState extends State<WorkoutPage> {
     );
   }
 }
+
+class MyListTile extends StatefulWidget {
+  late Tasks task;
+  MyListTile({super.key,required this.task});
+
+  @override
+  State<MyListTile> createState() => _MyListTileState();
+}
+
+class _MyListTileState extends State<MyListTile> {
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+        title: Text(
+            widget.task.task),
+        leading: IconButton(
+            icon: Icon(widget.task.like? Icons.album_outlined: Icons.album),
+            onPressed: () {
+              setState(() {
+                widget.task.like= !widget.task.like;
+              });
+            }
+        ));
+  }
+}
+

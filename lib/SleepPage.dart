@@ -187,32 +187,10 @@ class _SleepPageState extends State<SleepPage> {
                                                                   color: Colors
                                                                       .white,
                                                                   width: 2))),
-                                                  child: ListTile(
-                                                      title: Text(
-                                                          sleep_Task[index]
-                                                              .task),
-                                                      leading: IconButton(
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            sleep_Task[index]
-                                                                    .like =
-                                                                !sleep_Task[
-                                                                        index]
-                                                                    .like;
-                                                            print(sleep_Task[
-                                                                        index]
-                                                                    .like
-                                                                ? 1
-                                                                : 0);
-                                                          });
-                                                        },
-                                                        icon: sleep_Task[index]
-                                                                .like
-                                                            ? const Icon(Icons
-                                                                .album_outlined)
-                                                            : const Icon(
-                                                                Icons.album),
-                                                      )))));
+                                                  child:MyListTile(task: sleep_Task[index],)
+                                              )
+                                      )
+                                  );
                                 },
                               );
                             },
@@ -341,3 +319,29 @@ class _SleepPageState extends State<SleepPage> {
     );
   }
 }
+class MyListTile extends StatefulWidget {
+  late Tasks task;
+  MyListTile({super.key,required this.task});
+
+  @override
+  State<MyListTile> createState() => _MyListTileState();
+}
+
+class _MyListTileState extends State<MyListTile> {
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+        title: Text(
+            widget.task.task),
+        leading: IconButton(
+            icon: Icon(widget.task.like? Icons.album_outlined: Icons.album),
+            onPressed: () {
+              setState(() {
+                widget.task.like= !widget.task.like;
+              });
+            }
+        ));
+  }
+}
+
