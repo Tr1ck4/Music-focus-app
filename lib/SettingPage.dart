@@ -2,6 +2,8 @@ import 'package:cs486/Homepage.dart';
 import 'package:cs486/ImportPage.dart';
 import 'package:cs486/LikedTrackPage.dart';
 import 'package:cs486/PlaylistPage.dart';
+import 'package:cs486/PlaylistSong.dart';
+import 'package:cs486/Song.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -58,7 +60,8 @@ class _SettingPageState extends State<SettingPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const LikedTrackPage(),
+                              builder: (context) => PlaylistSongPage(
+                                  list_name: 'Liked Track', name: liked),
                             ));
                       },
                       child: Container(

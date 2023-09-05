@@ -1,4 +1,5 @@
 import 'package:cs486/Homepage.dart';
+import 'package:cs486/SettingPage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'Task.dart';
@@ -213,7 +214,13 @@ class _MeditationPageState extends State<MeditationPage> {
                               size: 30,
                             )),
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SettingPage(),
+                      ));
+                            },
                             icon: const Icon(
                               Icons.settings,
                               size: 30,
