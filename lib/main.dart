@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import 'package:cs486/SettingPage.dart';
 import 'package:flutter/material.dart';
 import 'Homepage.dart';
@@ -5,6 +6,19 @@ import 'MeditationPage.dart';
 import 'SettingPage.dart';
 
 void main() {
+=======
+import 'Song.dart';
+import 'package:flutter/material.dart';
+import 'Homepage.dart';
+import 'database.dart';
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  var data = await DBProvider().readPlaylist("Meditation");
+  for(int i =0  ;i  < data.length ; i++){
+    print(data[i].name);
+  }
+>>>>>>> Stashed changes
   runApp(const MyApp());
 }
 
