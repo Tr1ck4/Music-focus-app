@@ -1,7 +1,10 @@
+import 'package:cs486/database.dart';
+
 import 'SettingPage.dart';
 import 'package:flutter/material.dart';
 import 'MeditationPage.dart';
 import 'SleepPage.dart';
+import 'Song.dart';
 import 'StudyPage.dart';
 import 'WorkoutPage.dart';
 
@@ -39,20 +42,33 @@ class CustomModeButton extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  List<Song>meditation=[];
+  List<Song>study=[];
+  List<Song>sleep=[];
+  List<Song>workout=[];
+  List<Song>liked=[];
+  List<Song>added=[];
+  MyHomePage({super.key});
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  void callData()async{
+    widget.meditation = await DBProvider().readPlaylist("Meditation");
+    widget.study = await DBProvider().readPlaylist("Study");
+    widget.sleep = await DBProvider().readPlaylist("Sleep");
+    widget.workout = await DBProvider().readPlaylist("Workout");
+    widget.liked = await DBProvider().readLiked();
+    widget.added = await DBProvider().readPlaylist("Added");
+  }
+  @override
+  void initState(){
+    super.initState();
+    callData();
+  }
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
         body: Stack(
       children: [
@@ -78,19 +94,19 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisSize: MainAxisSize.max,
             children: [
               CustomModeButton(mod: "assets/meditationbox.png", text: "Meditation", onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const MeditationPage(),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MeditationPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked),));
               },),
               const SizedBox(height: 20,),
               CustomModeButton(mod: "assets/workoutbox.png", text: "Workout", onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const WorkoutPage(),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => WorkoutPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked),));
               },),
               const SizedBox(height: 20,),
               CustomModeButton(mod: "assets/studybox.png", text: "Study", onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const StudyPage(),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => StudyPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked),));
               },),
               const SizedBox(height: 20,),
               CustomModeButton(mod: "assets/sleepbox.png", text: "Sleep", onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const SleepPage(),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SleepPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked),));
               },),
             ],
           ),
@@ -103,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const SettingPage(),
+                        builder: (context) => SettingPage(),
                       ));
                 },
                 icon: const Icon(

@@ -7,9 +7,16 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'Song.dart';
+import 'database.dart';
 
 class StudyPage extends StatefulWidget {
-  const StudyPage({super.key});
+  List<Song>meditation = [];
+  List<Song>study = [];
+  List<Song>workout = [];
+  List<Song>sleep = [];
+  List<Song>liked = [];
+  List<Song>added = [];
+  StudyPage({super.key,required this.meditation,required this.study,required this.workout, required this.sleep, required this.added,required this.liked});
   @override
   State<StudyPage> createState() => _StudyPageState();
 }
@@ -42,16 +49,16 @@ class _StudyPageState extends State<StudyPage> {
     _audioPlayer.onPlayerComplete.listen((event) {
       position = Duration.zero;
       index++;
-      if (index >= study.length) {
+      if (index >= widget.study.length) {
         index = 0;
       }
-      _audioPlayer.play(AssetSource(study[index].asset));
+      _audioPlayer.play(AssetSource(widget.study[index].asset));
     });
     startTimer();
   }
 
   Future<void> setAudio() async {
-    _audioPlayer.setSourceAsset(study[index].asset);
+    _audioPlayer.setSourceAsset(widget.study[index].asset);
   }
 
   void startTimer() {
@@ -160,7 +167,7 @@ class _StudyPageState extends State<StudyPage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const MyHomePage()));
+                                          MyHomePage()));
                             },
                             icon: const Icon(
                               Icons.arrow_back_ios_new,
@@ -211,7 +218,7 @@ class _StudyPageState extends State<StudyPage> {
                               Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const SettingPage(),
+                        builder: (context) =>SettingPage(),
                       ));
                             },
                             icon: const Icon(
@@ -275,7 +282,7 @@ class _StudyPageState extends State<StudyPage> {
                       onPressed: () async {
                         setState(() {
                           if (index < 0) {
-                            index = study.length - 1;
+                            index = widget.study.length - 1;
                           } else {
                             index--;
                           }
@@ -301,7 +308,7 @@ class _StudyPageState extends State<StudyPage> {
                     IconButton(
                       onPressed: () async {
                         setState(() {
-                          if (index >= study.length - 1) {
+                          if (index >= widget.study.length - 1) {
                             index = 0;
                           } else {
                             index++;
@@ -323,8 +330,8 @@ class _StudyPageState extends State<StudyPage> {
                 height: MediaQuery.of(context).size.height / 4,
                 child: Playlist(
                     list_name: 'Study',
-                    playlist: study,
-                    audioPlayer: _audioPlayer),
+                    playlist: widget.study,
+                    audioPlayer: _audioPlayer,liked: widget.liked,),
               ),
             ),
           ],

@@ -1,15 +1,25 @@
 import 'package:cs486/SettingPage.dart';
 import 'package:cs486/Song.dart';
+import 'package:cs486/database.dart';
 import 'package:flutter/material.dart';
 
 class ImportPage extends StatefulWidget {
-  const ImportPage({super.key});
-
+  List<Song>meditation = [];
+  List<Song>study = [];
+  List<Song>workout = [];
+  List<Song>sleep = [];
+  List<Song>liked = [];
+  List<Song>added = [];
+  ImportPage({super.key,required this.meditation,required this.study,required this.workout, required this.sleep, required this.added,required this.liked});
   @override
   State<ImportPage> createState() => _ImportPageState();
 }
 
 class _ImportPageState extends State<ImportPage> {
+  @override
+  void initState(){
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final _textController = TextEditingController();
@@ -64,9 +74,14 @@ class _ImportPageState extends State<ImportPage> {
                   height: 30,
                 ),
                 GestureDetector(
-                  onTap: () {
-                    added.add(Song('Song ${added.length + 1}',
-                        _textController.text, false));
+                  onTap: () async{
+                    await DBProvider().addSong('Song ${widget.added.length+1}', false, _textController.text, "Added");
+                    var temp =await DBProvider().readAll();
+                    for(int i = 0 ; i<  temp.length;  i++){
+                      print('${temp[i].name},${temp[i].liked},${temp[i].asset}');
+                    }
+                    widget.added.add(Song(name:'Song ${widget.added.length + 1}',
+                        asset:_textController.text, liked:false));
                     _textController.clear();
                     showDialog(
                       context: context,
@@ -128,7 +143,7 @@ class _ImportPageState extends State<ImportPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const SettingPage(),
+                                  builder: (context) => SettingPage(),
                                 ));
                           },
                           icon: const Icon(

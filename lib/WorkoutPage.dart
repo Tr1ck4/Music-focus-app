@@ -7,9 +7,16 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'Song.dart';
+import 'database.dart';
 
 class WorkoutPage extends StatefulWidget {
-  const WorkoutPage({super.key});
+  List<Song>meditation = [];
+  List<Song>study = [];
+  List<Song>workout = [];
+  List<Song>sleep = [];
+  List<Song>liked = [];
+  List<Song>added = [];
+  WorkoutPage({super.key,required this.meditation,required this.study,required this.workout, required this.sleep, required this.added,required this.liked});
   @override
   State<WorkoutPage> createState() => _WorkoutPageState();
 }
@@ -42,16 +49,16 @@ class _WorkoutPageState extends State<WorkoutPage> {
     _audioPlayer.onPlayerComplete.listen((event) {
       position = Duration.zero;
       index++;
-      if (index >= study.length) {
+      if (index >= widget.workout.length) {
         index = 0;
       }
-      _audioPlayer.play(AssetSource(study[index].asset));
+      _audioPlayer.play(AssetSource(widget.workout[index].asset));
     });
     startTimer();
   }
 
   Future<void> setAudio() async {
-    _audioPlayer.setSourceAsset(study[index].asset);
+    _audioPlayer.setSourceAsset(widget.workout[index].asset);
   }
 
   void startTimer() {
@@ -160,7 +167,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const MyHomePage()));
+                                          MyHomePage()));
                             },
                             icon: const Icon(
                               Icons.arrow_back_ios_new,
@@ -211,7 +218,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                               Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const SettingPage(),
+                        builder: (context) => SettingPage(),
                       ));
                             },
                             icon: const Icon(
@@ -275,7 +282,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                       onPressed: () async {
                         setState(() {
                           if (index < 0) {
-                            index = workout.length - 1;
+                            index = widget.workout.length - 1;
                           } else {
                             index--;
                           }
@@ -301,7 +308,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                     IconButton(
                       onPressed: () async {
                         setState(() {
-                          if (index >= workout.length - 1) {
+                          if (index >= widget.workout.length - 1) {
                             index = 0;
                           } else {
                             index++;
@@ -323,8 +330,8 @@ class _WorkoutPageState extends State<WorkoutPage> {
                 height: MediaQuery.of(context).size.height / 4,
                 child: Playlist(
                     list_name: 'Workout',
-                    playlist: workout,
-                    audioPlayer: _audioPlayer),
+                    playlist: widget.workout,
+                    audioPlayer: _audioPlayer,liked: widget.liked,),
               ),
             ),
           ],

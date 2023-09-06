@@ -1,19 +1,24 @@
 import 'package:cs486/Homepage.dart';
 import 'package:cs486/SettingPage.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'Task.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'Song.dart';
+import 'database.dart';
 
 class MeditationPage extends StatefulWidget {
-  const MeditationPage({super.key});
+  List<Song>meditation = [];
+  List<Song>study = [];
+  List<Song>workout = [];
+  List<Song>sleep = [];
+  List<Song>liked = [];
+  List<Song>added = [];
+  MeditationPage({super.key,required this.meditation,required this.study,required this.workout, required this.sleep, required this.added,required this.liked});
   @override
   State<MeditationPage> createState() => _MeditationPageState();
 }
-
 class _MeditationPageState extends State<MeditationPage> {
   int index = 0;
   Timer? countdownTimer;
@@ -42,21 +47,19 @@ class _MeditationPageState extends State<MeditationPage> {
     _audioPlayer.onPlayerComplete.listen((event) {
       position = Duration.zero;
       index++;
-      if (index >= meditation.length) {
+      if (index >= widget.meditation.length) {
         index = 0;
       }
-      _audioPlayer.play(AssetSource(meditation[index].asset));
+      _audioPlayer.play(AssetSource(widget.meditation[index].asset));
     });
     startTimer();
   }
-
   Future<void> setAudio() async {
-    _audioPlayer.setSourceAsset(meditation[index].asset);
+    _audioPlayer.setSourceAsset(widget.meditation[index].asset);
   }
 
   void reset() {
     setState(() {
-      print('reset');
     });
   }
 
@@ -166,7 +169,7 @@ class _MeditationPageState extends State<MeditationPage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const MyHomePage()));
+                                          MyHomePage()));
                             },
                             icon: const Icon(
                               Icons.arrow_back_ios_new,
@@ -218,7 +221,7 @@ class _MeditationPageState extends State<MeditationPage> {
                               Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const SettingPage(),
+                        builder: (context) => SettingPage(),
                       ));
                             },
                             icon: const Icon(
@@ -282,7 +285,7 @@ class _MeditationPageState extends State<MeditationPage> {
                       onPressed: () {
                         setState(() {
                           if (index < 0) {
-                            index = meditation.length - 1;
+                            index = widget.meditation.length - 1;
                           } else {
                             index--;
                           }
@@ -308,7 +311,7 @@ class _MeditationPageState extends State<MeditationPage> {
                     IconButton(
                       onPressed: () {
                         setState(() {
-                          if (index >= meditation.length - 1) {
+                          if (index >= widget.meditation.length - 1) {
                             index = 0;
                           } else {
                             index++;
@@ -330,8 +333,10 @@ class _MeditationPageState extends State<MeditationPage> {
                 height: MediaQuery.of(context).size.height / 4,
                 child: Playlist(
                     list_name: 'Meditation',
-                    playlist: meditation,
-                    audioPlayer: _audioPlayer),
+                    playlist: widget.meditation,
+                    audioPlayer: _audioPlayer,
+                    liked:widget.liked,
+                ),
               ),
             ),
           ],
