@@ -28,15 +28,14 @@ class DBProvider {
     const createUser = 'CREATE TABLE User(name TEXT,file TEXT,isLiked INTEGER,playlist TEXT);';
     const populateHistory = '''INSERT INTO User(name, file, isLiked,playlist)
 VALUES
-	('Forest sounds', 'audio/Meditation/forest_sounds.mp3', 0,"Meditation"),
-	('Waterfall sounds', 'audio/Meditation/waterfall_sounds.mp3', 0,"Meditation"),
-	('Sleeping City', 'audio/Sleep/SleepingCity_JayLounge.mp3', 0,"Sleep"),
-	('WYS', 'audio/Sleep/WYS_LoneftEase.mp3', 0,"Sleep"),
-	('Conquer', 'audio/Workout/Conquer_Hopex.mp3', 0,"Workout"),
-	('IDidThatDiamond_Ortiz', 'audio/Workout/IDidThatDiamond_Ortiz.mp3', 0,"Workout"),
-	('Causes_geek', 'audio/Study/Causes_geek.mp3', 0,"Study"),
-	('VoiceOfTheForest_YasumuxNo',
-      'audio/Study/VoiceOfTheForest_YasumuxNo Spirit.mp3', 0,"Study");''';
+	('Forest sounds',             'audio/Meditation/forest_sounds.mp3',                0,"Meditation"),
+	('Waterfall sounds',          'audio/Meditation/waterfall_sounds.mp3',             0,"Meditation"),
+	('Sleeping City',             'audio/Sleep/SleepingCity_JayLounge.mp3',            0,"Sleep"),
+	('WYS',                       'audio/Sleep/WYS_LoneftEase.mp3',                    0,"Sleep"),
+	('Conquer',                   'audio/Workout/Conquer_Hopex.mp3',                   0,"Workout"),
+	('IDidThatDiamond_Ortiz',     'audio/Workout/IDidThatDiamond_Ortiz.mp3',           0,"Workout"),
+	('Causes_geek',               'audio/Study/Causes_geek.mp3',                       0,"Study"),
+	('VoiceOfTheForest_YasumuxNo','audio/Study/VoiceOfTheForest_YasumuxNo Spirit.mp3', 0,"Study");''';
 
     try {
       await db.execute(createUser);
@@ -59,16 +58,27 @@ VALUES
         .map((row) => Song(
         name: row['name'].toString(),
         asset: row['asset'].toString(),
-        liked: (row['isLiked'].toString()=='1')?true:false))
+        liked: row['liked']==1?true:false))
         .toList();
   }
-  Future updateSong(int isLiked,String asset)async{
+  Future<List<Song>> readAll() async {
     var dbClient = await db;
-    dbClient.rawUpdate('UPDATE User SET isLiked =  ? WHERE file = ?', [isLiked,asset]);
+    final List<Map<String, dynamic>> rows = await dbClient.rawQuery(
+        'SELECT u.name AS name, u.file as asset, u.isLiked as liked FROM User u ;');
+    return rows
+        .map((row) => Song(
+        name: row['name'].toString(),
+        asset: row['asset'].toString(),
+        liked: row['liked']==1?true:false))
+        .toList();
   }
-  Future addSong(String name, int isLiked,String asset,String playlist)async{
+  updateSong(Song song)async{
     var dbClient = await db;
-    dbClient.rawInsert('INSERT INTO User (name,file,isLiked,playlist) VALUE(?,?,?,?)', [name,asset,isLiked,playlist]);
+    dbClient.rawQuery('UPDATE User SET isLiked =  ? WHERE file = ?', [song.liked,song.asset]);
+  }
+  addSong(String name, bool isLiked,String asset,String playlist)async{
+    var dbClient = await db;
+    dbClient.rawInsert('INSERT INTO User (name,file,isLiked,playlist) VALUES(?,?,?,?)', [name,asset,isLiked?1:0,playlist]);
   }
   Future<List<Song>> readLiked() async {
     var dbClient = await db;
@@ -78,7 +88,7 @@ VALUES
         .map((row) => Song(
         name: row['name'].toString(),
         asset: row['asset'].toString(),
-        liked: (row['isLiked'].toString()=='1')?true:false))
+        liked: row['liked']==1?true:false))
         .toList();
   }
 }

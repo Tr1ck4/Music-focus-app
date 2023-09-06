@@ -1,16 +1,27 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cs486/SettingPage.dart';
 import 'package:cs486/Song.dart';
+import 'package:cs486/database.dart';
 import 'package:flutter/material.dart';
 
 class LikedTrackPage extends StatefulWidget {
-  const LikedTrackPage({super.key});
+  List<Song>meditation = [];
+  List<Song>study = [];
+  List<Song>workout = [];
+  List<Song>sleep = [];
+  List<Song>liked = [];
+  List<Song>added = [];
+  LikedTrackPage({super.key});
 
   @override
   State<LikedTrackPage> createState() => _LikedTrackPageState();
 }
 
 class _LikedTrackPageState extends State<LikedTrackPage> {
+  @override
+  void initState(){
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,13 +37,14 @@ class _LikedTrackPageState extends State<LikedTrackPage> {
             ),
           ),
           Padding(
-              padding: EdgeInsets.all(40),
+              padding: const EdgeInsets.all(40),
               child: Playlist(
                   list_name: 'Liked',
-                  playlist: liked,
-                  audioPlayer: AudioPlayer())),
+                  playlist: widget.liked,
+                  audioPlayer: AudioPlayer(), liked: widget.liked,),
+          ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 20, 0, 40),
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 40),
             child: Container(
                 alignment: Alignment.bottomCenter,
                 child: IconButton(
@@ -40,7 +52,7 @@ class _LikedTrackPageState extends State<LikedTrackPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const SettingPage(),
+                            builder: (context) =>SettingPage(),
                           ));
                     },
                     icon: const Icon(

@@ -1,4 +1,5 @@
 import 'package:cs486/Homepage.dart';
+import 'package:cs486/database.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'Task.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,13 @@ import 'package:audioplayers/audioplayers.dart';
 import 'Song.dart';
 
 class LikedSongPage extends StatefulWidget {
-  const LikedSongPage({super.key});
+  List<Song>meditation = [];
+  List<Song>study = [];
+  List<Song>workout = [];
+  List<Song>sleep = [];
+  List<Song>liked = [];
+  List<Song>added = [];
+  LikedSongPage({super.key,required this.meditation,required this.study,required this.workout, required this.sleep, required this.added,required this.liked});
 
   @override
   State<LikedSongPage> createState() => _LikedSongPageState();
@@ -41,16 +48,16 @@ class _LikedSongPageState extends State<LikedSongPage> {
     _audioPlayer.onPlayerComplete.listen((event) {
       position = Duration.zero;
       index++;
-      if (index >= study.length) {
+      if (index >= widget.study.length) {
         index = 0;
       }
-      _audioPlayer.play(AssetSource(study[index].asset));
+      _audioPlayer.play(AssetSource(widget.study[index].asset));
     });
     startTimer();
   }
 
   Future<void> setAudio() async {
-    _audioPlayer.setSourceAsset(study[index].asset);
+    _audioPlayer.setSourceAsset(widget.study[index].asset);
   }
 
   void startTimer() {
@@ -159,7 +166,7 @@ class _LikedSongPageState extends State<LikedSongPage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const MyHomePage()));
+                                          MyHomePage()));
                             },
                             icon: const Icon(
                               Icons.arrow_back_ios_new,
@@ -234,7 +241,7 @@ class _LikedSongPageState extends State<LikedSongPage> {
                       onPressed: () async {
                         setState(() {
                           if (index < 0) {
-                            index = liked.length - 1;
+                            index = widget.liked.length - 1;
                           } else {
                             index--;
                           }
@@ -260,7 +267,7 @@ class _LikedSongPageState extends State<LikedSongPage> {
                     IconButton(
                       onPressed: () async {
                         setState(() {
-                          if (index >= liked.length - 1) {
+                          if (index >= widget.liked.length - 1) {
                             index = 0;
                           } else {
                             index++;
@@ -282,8 +289,9 @@ class _LikedSongPageState extends State<LikedSongPage> {
                 height: MediaQuery.of(context).size.height / 4,
                 child: Playlist(
                     list_name: 'Liked Tracks',
-                    playlist: liked,
-                    audioPlayer: _audioPlayer),
+                    playlist: widget.liked,
+                    audioPlayer: _audioPlayer,liked: widget.liked,
+                ),
               ),
             ),
           ],

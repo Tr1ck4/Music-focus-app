@@ -12,17 +12,37 @@ import 'package:cs486/StudyPage.dart';
 import 'package:cs486/WorkoutPage.dart';
 import 'package:flutter/material.dart';
 
+import 'database.dart';
+
 class PlaylistSongPage extends StatefulWidget {
+  List<Song>meditation = [];
+  List<Song>study = [];
+  List<Song>workout = [];
+  List<Song>sleep = [];
+  List<Song>liked = [];
+  List<Song>added = [];
   final String list_name;
   final List<Song> name;
-  const PlaylistSongPage(
-      {required this.list_name, required this.name, super.key});
+  PlaylistSongPage({required this.list_name, required this.name, super.key});
 
   @override
   State<PlaylistSongPage> createState() => _PlaylistSongPageState();
 }
 
 class _PlaylistSongPageState extends State<PlaylistSongPage> {
+  void callData()async{
+    widget.meditation = await DBProvider().readPlaylist("Meditation");
+    widget.study = await DBProvider().readPlaylist("Study");
+    widget.sleep = await DBProvider().readPlaylist("Sleep");
+    widget.workout = await DBProvider().readPlaylist("Workout");
+    widget.liked = await DBProvider().readLiked();
+    widget.added = await DBProvider().readPlaylist("Added");
+  }
+  @override
+  void initState(){
+    super.initState();
+    callData();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +62,9 @@ class _PlaylistSongPageState extends State<PlaylistSongPage> {
               child: Playlist(
                   list_name: widget.list_name,
                   playlist: widget.name,
-                  audioPlayer: AudioPlayer())),
+                  audioPlayer: AudioPlayer(),liked: widget.liked,
+              ),
+          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 20, 0, 40),
             child: Row(
@@ -55,7 +77,7 @@ class _PlaylistSongPageState extends State<PlaylistSongPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const PlaylistPage(),
+                                builder: (context) => PlaylistPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked),
                               ));
                         },
                         icon: const Icon(
@@ -74,40 +96,40 @@ class _PlaylistSongPageState extends State<PlaylistSongPage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const MeditationPage()));
+                                          MeditationPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked,)));
                             }
                             if (widget.list_name == 'Workout') {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const WorkoutPage()));
+                                          WorkoutPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked)));
                             }
                             if (widget.list_name == 'Study') {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const StudyPage()));
+                                      builder: (context) => StudyPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked)));
                             }
                             if (widget.list_name == 'Sleep') {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const SleepPage()));
+                                      builder: (context) => SleepPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked)));
                             }
                             if (widget.list_name == 'Liked Tracks') {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const LikedSongPage()));
+                                          LikedSongPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked)));
                             }
                             if (widget.list_name == 'Added Tracks') {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const AddedSongPage()));
+                                          AddedSongPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked)));
                             }
                           },
                           icon: const Icon(

@@ -4,17 +4,37 @@ import 'package:cs486/LikedTrackPage.dart';
 import 'package:cs486/PlaylistPage.dart';
 import 'package:cs486/PlaylistSong.dart';
 import 'package:cs486/Song.dart';
+import 'package:cs486/database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SettingPage extends StatefulWidget {
-  const SettingPage({super.key});
+  List<Song>meditation = [];
+  List<Song>study = [];
+  List<Song>workout = [];
+  List<Song>sleep = [];
+  List<Song>liked = [];
+  List<Song>added = [];
+  SettingPage({super.key});
 
   @override
   State<SettingPage> createState() => _SettingPageState();
 }
 
 class _SettingPageState extends State<SettingPage> {
+  void callData()async{
+    widget.meditation = await DBProvider().readPlaylist("Meditation");
+    widget.study = await DBProvider().readPlaylist("Study");
+    widget.sleep = await DBProvider().readPlaylist("Sleep");
+    widget.workout = await DBProvider().readPlaylist("Workout");
+    widget.liked = await DBProvider().readLiked();
+    widget.added = await DBProvider().readPlaylist("Added");
+  }
+  @override
+  void initState(){
+    super.initState();
+    callData();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +81,7 @@ class _SettingPageState extends State<SettingPage> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => PlaylistSongPage(
-                                  list_name: 'Liked Track', name: liked),
+                                  list_name: 'Liked Track', name: widget.liked),
                             ));
                       },
                       child: Container(
@@ -114,7 +134,7 @@ class _SettingPageState extends State<SettingPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const PlaylistPage(),
+                              builder: (context) => PlaylistPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked),
                             ));
                       },
                       child: Container(
@@ -167,7 +187,7 @@ class _SettingPageState extends State<SettingPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const ImportPage(),
+                              builder: (context) => ImportPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked),
                             ));
                       },
                       child: Container(
@@ -223,7 +243,7 @@ class _SettingPageState extends State<SettingPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const MyHomePage(),
+                              builder: (context) => MyHomePage(),
                             ));
                       },
                       icon: const Icon(

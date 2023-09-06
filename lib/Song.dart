@@ -1,13 +1,13 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:cs486/PlaylistSong.dart';
-import 'package:cs486/database.dart';
+import 'PlaylistSong.dart';
+import 'database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Song {
   late String name = '';
   late String asset='';
-  late bool liked=false;
+  late bool liked = false;
   Song({required this.name, required this.asset, required this.liked});
 
   Map<String, dynamic> toMap() {
@@ -18,29 +18,20 @@ class Song {
     };
   }
 }
-
-List<Song> meditation = [];
-List<Song> sleep = [];
-List<Song> workout = [];
-List<Song> study = [];
-List<Song> liked = [];
-List<Song> added = [];
-
 class MyIconButton extends StatefulWidget {
   late Song song;
   late String playlist;
-  MyIconButton({super.key,required this.song,required this.playlist});
+  late List<Song> liked;
+  MyIconButton({super.key,required this.song,required this.playlist,required this.liked});
   @override
   State<MyIconButton> createState() => _MyIconButtonState();
 }
 
 class _MyIconButtonState extends State<MyIconButton> {
   void update()async{
-    await DBProvider().updateSong(widget.song.liked?1:0,widget.song.asset);
-    liked = await DBProvider().readLiked();
-    for(int i = 0; i  < liked.length;  i++){
-      print('${liked[i].name} ${liked[i].liked} ${widget.song.liked}');
-    }
+    await DBProvider().updateSong(widget.song);
+    widget.liked = await DBProvider().readLiked();
+    print(widget.liked);
   }
   @override
   Widget build(BuildContext context) {
@@ -48,7 +39,7 @@ class _MyIconButtonState extends State<MyIconButton> {
       onPressed: () {
         setState((){
           if(widget.playlist !='Added Tracks'){
-            widget.song.liked =!widget.song.liked;
+            widget.song.liked = !widget.song.liked;
             update();
           }
         });
@@ -70,6 +61,7 @@ class _MyIconButtonState extends State<MyIconButton> {
   }
 }
 class Playlist extends StatefulWidget {
+  List<Song> liked = [];
   final AudioPlayer audioPlayer;
   final String list_name;
   late List<Song> playlist;
@@ -77,7 +69,9 @@ class Playlist extends StatefulWidget {
       {super.key,
       required this.list_name,
       required this.playlist,
-      required this.audioPlayer});
+      required this.audioPlayer,
+        required this.liked
+      });
   @override
   State<Playlist> createState() => _PlaylistState();
 }
@@ -120,7 +114,7 @@ class _PlaylistState extends State<Playlist> {
                   widget.list_name,
                   style: const TextStyle(color: Colors.white, fontSize: 12),
                 ),
-                trailing: MyIconButton(playlist: widget.list_name,song: widget.playlist[index]),
+                trailing: MyIconButton(playlist: widget.list_name,song: widget.playlist[index],liked: widget.liked),
                 onTap: ()  {
                   setState(() async{
                     if (widget.list_name == 'Added Tracks') {
@@ -138,82 +132,219 @@ class _PlaylistState extends State<Playlist> {
 }
 
 class Album extends StatefulWidget {
+  List<Song>meditation = [];
+  List<Song>study = [];
+  List<Song>workout = [];
+  List<Song>sleep = [];
+  List<Song>liked = [];
+  List<Song>added = [];
+  List<Playlist> album;
   final String album_name;
-  final List<Playlist> album;
-  const Album({
+  Album({
     super.key,
-    required this.album_name,
     required this.album,
+    required this.album_name,
+    required this.meditation,required this.study,required this.workout, required this.sleep, required this.added,required this.liked
   });
-
   @override
   State<Album> createState() => _AlbumState();
 }
 
 class _AlbumState extends State<Album> {
-  void reload()async{
-    meditation = await DBProvider().readPlaylist("Meditation");
-    sleep = await DBProvider().readPlaylist("Sleep");
-    study = await DBProvider().readPlaylist("Study");
-    workout = await DBProvider().readPlaylist("Workout");
-    liked = await DBProvider().readLiked();
-    added = await DBProvider().readPlaylist("Added");
-  }
-  @override
-  void initState(){
-    super.initState();
-    reload();
-  }
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        padding: const EdgeInsets.symmetric(),
-        itemCount: widget.album.length,
-        itemBuilder: (context, index) => SizedBox(
-            height: 100,
-            child: ListTile(
-              leading: Image.asset(
-                "assets/icon/playlist.png",
-                height: 70,
-                width: 70,
-                color: Colors.cyanAccent.shade700,
-              ),
-              title: Text(
-                widget.album[index].list_name,
-                style: GoogleFonts.openSans(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
-              ),
-              trailing: Text(
-                '${widget.album[index].playlist.length.toString()} tracks',
-                style: GoogleFonts.openSans(
-                    fontSize: 10,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
-              ),
-              onTap: () async {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => PlaylistSongPage(
-                            list_name: widget.album[index].list_name,
-                            name: widget.album[index].playlist)));
-              },
-            )));
+    return ListView(
+        padding: EdgeInsets.symmetric(vertical: 30),
+        children: [
+          ListTile(
+            leading: Image.asset(
+              "assets/icon/playlist.png",
+              height: 70,
+              width: 70,
+              color: Colors.cyanAccent.shade700,
+            ),
+            title: Text(
+              "Meditation",
+              style: GoogleFonts.openSans(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+            trailing: Text(
+              '${widget.meditation.length.toString()} tracks',
+              style: GoogleFonts.openSans(
+                  fontSize: 15,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+            onTap: () async {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PlaylistSongPage(
+                        list_name: "Meditation",
+                        name: widget.meditation,)));
+            },
+          ),
+          const SizedBox(height: 40,),
+          ListTile(
+            leading: Image.asset(
+              "assets/icon/playlist.png",
+              height: 70,
+              width: 70,
+              color: Colors.cyanAccent.shade700,
+            ),
+            title: Text(
+              "Study",
+              style: GoogleFonts.openSans(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+            trailing: Text(
+              '${widget.study.length.toString()} tracks',
+              style: GoogleFonts.openSans(
+                  fontSize: 15,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+            onTap: () async {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PlaylistSongPage(
+                        list_name: "Study",
+                        name: widget.study)));
+            },
+          ),
+          const SizedBox(height: 40,),
+          ListTile(
+            leading: Image.asset(
+              "assets/icon/playlist.png",
+              height: 70,
+              width: 70,
+              color: Colors.cyanAccent.shade700,
+            ),
+            title: Text(
+              "Workout",
+              style: GoogleFonts.openSans(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+            trailing: Text(
+              '${widget.workout.length.toString()} tracks',
+              style: GoogleFonts.openSans(
+                  fontSize: 15,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+            onTap: () async {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PlaylistSongPage(
+                        list_name: "Workout",
+                        name: widget.workout)));
+            },
+          ),
+          const SizedBox(height: 40,),
+          ListTile(
+            leading: Image.asset(
+              "assets/icon/playlist.png",
+              height: 70,
+              width: 70,
+              color: Colors.cyanAccent.shade700,
+            ),
+            title: Text(
+              "Sleep",
+              style: GoogleFonts.openSans(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+            trailing: Text(
+              '${widget.sleep.length.toString()} tracks',
+              style: GoogleFonts.openSans(
+                  fontSize: 15,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+            onTap: () async {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PlaylistSongPage(
+                        list_name: "Sleep",
+                        name: widget.sleep)));
+            },
+          ),
+          const SizedBox(height: 40,),
+          ListTile(
+            leading: Image.asset(
+              "assets/icon/playlist.png",
+              height: 70,
+              width: 70,
+              color: Colors.cyanAccent.shade700,
+            ),
+            title: Text(
+              "Favourite",
+              style: GoogleFonts.openSans(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+            trailing: Text(
+              '${widget.liked.length.toString()} tracks',
+              style: GoogleFonts.openSans(
+                  fontSize: 15,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+            onTap: () async {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PlaylistSongPage(
+                        list_name: "Favourite",
+                        name: widget.liked)));
+            },
+          ),
+          const SizedBox(height: 40,),
+          ListTile(
+            leading: Image.asset(
+              "assets/icon/playlist.png",
+              height: 70,
+              width: 70,
+              color: Colors.cyanAccent.shade700,
+            ),
+            title: Text(
+              "Added ",
+              style: GoogleFonts.openSans(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+            trailing: Text(
+              '${widget.added.length.toString()} tracks',
+              style: GoogleFonts.openSans(
+                  fontSize: 15,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+            onTap: () async {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PlaylistSongPage(
+                        list_name: "Added tracks",
+                        name: widget.added)));
+            },
+          )
+        ],
+
+    );
   }
 }
 
-List<Playlist> album = [
-  Playlist(
-      list_name: 'Meditation',
-      playlist: meditation,
-      audioPlayer: AudioPlayer()),
-  Playlist(list_name: 'Sleep', playlist: sleep, audioPlayer: AudioPlayer()),
-  Playlist(list_name: 'Workout', playlist: workout, audioPlayer: AudioPlayer()),
-  Playlist(list_name: 'Study', playlist: study, audioPlayer: AudioPlayer()),
-  Playlist(
-      list_name: 'Liked Tracks', playlist: liked, audioPlayer: AudioPlayer()),
-  Playlist(
-      list_name: 'Added Tracks', playlist: added, audioPlayer: AudioPlayer())
-];
+

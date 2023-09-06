@@ -10,7 +10,13 @@ import 'Song.dart';
 import 'database.dart';
 
 class SleepPage extends StatefulWidget {
-  const SleepPage({super.key});
+  List<Song>meditation = [];
+  List<Song>study = [];
+  List<Song>workout = [];
+  List<Song>sleep = [];
+  List<Song>liked = [];
+  List<Song>added = [];
+  SleepPage({super.key,required this.meditation,required this.study,required this.workout, required this.sleep, required this.added,required this.liked});
   @override
   State<SleepPage> createState() => _SleepPageState();
 }
@@ -23,13 +29,9 @@ class _SleepPageState extends State<SleepPage> {
   bool isPlaying = false;
   Duration duration = Duration.zero;
   Duration position = Duration.zero;
-  void callData ()async{
-    sleep = await DBProvider().readPlaylist("Sleep");
-  }
   @override
   void initState() {
     super.initState();
-    callData();
     setAudio();
     _audioPlayer.onPlayerStateChanged.listen((state) {
       setState(() {
@@ -47,16 +49,16 @@ class _SleepPageState extends State<SleepPage> {
     _audioPlayer.onPlayerComplete.listen((event) {
       position = Duration.zero;
       index++;
-      if (index >= study.length) {
+      if (index >= widget.sleep.length) {
         index = 0;
       }
-      _audioPlayer.play(AssetSource(study[index].asset));
+      _audioPlayer.play(AssetSource(widget.sleep[index].asset));
     });
     startTimer();
   }
 
   Future<void> setAudio() async {
-    _audioPlayer.setSourceAsset(study[index].asset);
+    _audioPlayer.setSourceAsset(widget.sleep[index].asset);
   }
 
   void startTimer() {
@@ -165,7 +167,7 @@ class _SleepPageState extends State<SleepPage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const MyHomePage()));
+                                          MyHomePage()));
                             },
                             icon: const Icon(
                               Icons.arrow_back_ios_new,
@@ -216,7 +218,7 @@ class _SleepPageState extends State<SleepPage> {
                               Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const SettingPage(),
+                        builder: (context) =>SettingPage(),
                       ));
                             },
                             icon: const Icon(
@@ -280,7 +282,7 @@ class _SleepPageState extends State<SleepPage> {
                       onPressed: () async {
                         setState(() {
                           if (index < 0) {
-                            index = sleep.length - 1;
+                            index = widget.sleep.length - 1;
                           } else {
                             index--;
                           }
@@ -306,7 +308,7 @@ class _SleepPageState extends State<SleepPage> {
                     IconButton(
                       onPressed: () async {
                         setState(() {
-                          if (index >= sleep.length - 1) {
+                          if (index >= widget.sleep.length - 1) {
                             index = 0;
                           } else {
                             index++;
@@ -328,8 +330,9 @@ class _SleepPageState extends State<SleepPage> {
                 height: MediaQuery.of(context).size.height / 4,
                 child: Playlist(
                     list_name: 'Sleep',
-                    playlist: sleep,
-                    audioPlayer: _audioPlayer),
+                    playlist: widget.sleep,
+                    audioPlayer: _audioPlayer,liked: widget.liked,
+                ),
               ),
             ),
           ],
