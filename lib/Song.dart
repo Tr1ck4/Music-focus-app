@@ -132,6 +132,7 @@ class _PlaylistState extends State<Playlist> {
 }
 
 class Album extends StatefulWidget {
+  late AudioPlayer audioPlayer;
   List<Song>meditation = [];
   List<Song>study = [];
   List<Song>workout = [];
@@ -144,7 +145,8 @@ class Album extends StatefulWidget {
     super.key,
     required this.album,
     required this.album_name,
-    required this.meditation,required this.study,required this.workout, required this.sleep, required this.added,required this.liked
+    required this.meditation,required this.study,required this.workout, required this.sleep, required this.added,required this.liked,
+    required this.audioPlayer
   });
   @override
   State<Album> createState() => _AlbumState();
@@ -183,7 +185,7 @@ class _AlbumState extends State<Album> {
                   MaterialPageRoute(
                       builder: (context) => PlaylistSongPage(
                         list_name: "Meditation",
-                        name: widget.meditation,)));
+                        name: widget.meditation,audioPlayer: widget.audioPlayer,)));
             },
           ),
           const SizedBox(height: 40,),
@@ -214,7 +216,7 @@ class _AlbumState extends State<Album> {
                   MaterialPageRoute(
                       builder: (context) => PlaylistSongPage(
                         list_name: "Study",
-                        name: widget.study)));
+                        name: widget.study,audioPlayer: widget.audioPlayer,)));
             },
           ),
           const SizedBox(height: 40,),
@@ -245,7 +247,7 @@ class _AlbumState extends State<Album> {
                   MaterialPageRoute(
                       builder: (context) => PlaylistSongPage(
                         list_name: "Workout",
-                        name: widget.workout)));
+                        name: widget.workout,audioPlayer: widget.audioPlayer,)));
             },
           ),
           const SizedBox(height: 40,),
@@ -276,7 +278,7 @@ class _AlbumState extends State<Album> {
                   MaterialPageRoute(
                       builder: (context) => PlaylistSongPage(
                         list_name: "Sleep",
-                        name: widget.sleep)));
+                        name: widget.sleep,audioPlayer: widget.audioPlayer,)));
             },
           ),
           const SizedBox(height: 40,),
@@ -307,7 +309,7 @@ class _AlbumState extends State<Album> {
                   MaterialPageRoute(
                       builder: (context) => PlaylistSongPage(
                         list_name: "Favourite",
-                        name: widget.liked)));
+                        name: widget.liked,audioPlayer: widget.audioPlayer)));
             },
           ),
           const SizedBox(height: 40,),
@@ -338,7 +340,7 @@ class _AlbumState extends State<Album> {
                   MaterialPageRoute(
                       builder: (context) => PlaylistSongPage(
                         list_name: "Added tracks",
-                        name: widget.added)));
+                        name: widget.added,audioPlayer: widget.audioPlayer,)));
             },
           )
         ],

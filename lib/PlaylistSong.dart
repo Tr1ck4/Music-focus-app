@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'database.dart';
 
 class PlaylistSongPage extends StatefulWidget {
+  late AudioPlayer audioPlayer;
   List<Song>meditation = [];
   List<Song>study = [];
   List<Song>workout = [];
@@ -23,7 +24,7 @@ class PlaylistSongPage extends StatefulWidget {
   List<Song>added = [];
   final String list_name;
   final List<Song> name;
-  PlaylistSongPage({required this.list_name, required this.name, super.key});
+  PlaylistSongPage({required this.list_name, required this.name, super.key,required this.audioPlayer});
 
   @override
   State<PlaylistSongPage> createState() => _PlaylistSongPageState();
@@ -77,7 +78,7 @@ class _PlaylistSongPageState extends State<PlaylistSongPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => PlaylistPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked),
+                                builder: (context) => PlaylistPage(audioPlayer: widget.audioPlayer,meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked),
                               ));
                         },
                         icon: const Icon(
@@ -96,26 +97,26 @@ class _PlaylistSongPageState extends State<PlaylistSongPage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          MeditationPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked,)));
+                                          MeditationPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked, audioPlayer: widget.audioPlayer,)));
                             }
                             if (widget.list_name == 'Workout') {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          WorkoutPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked)));
+                                          WorkoutPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked, audioPlayer: widget.audioPlayer,)));
                             }
                             if (widget.list_name == 'Study') {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => StudyPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked)));
+                                      builder: (context) => StudyPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked, audioPlayer: widget.audioPlayer,)));
                             }
                             if (widget.list_name == 'Sleep') {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => SleepPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked)));
+                                      builder: (context) => SleepPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked, audioPlayer: widget.audioPlayer,)));
                             }
                             if (widget.list_name == 'Liked Tracks') {
                               Navigator.push(

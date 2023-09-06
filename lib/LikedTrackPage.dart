@@ -5,13 +5,14 @@ import 'package:cs486/database.dart';
 import 'package:flutter/material.dart';
 
 class LikedTrackPage extends StatefulWidget {
+  late AudioPlayer audioPlayer;
   List<Song>meditation = [];
   List<Song>study = [];
   List<Song>workout = [];
   List<Song>sleep = [];
   List<Song>liked = [];
   List<Song>added = [];
-  LikedTrackPage({super.key});
+  LikedTrackPage({super.key,required this.audioPlayer});
 
   @override
   State<LikedTrackPage> createState() => _LikedTrackPageState();
@@ -52,7 +53,7 @@ class _LikedTrackPageState extends State<LikedTrackPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>SettingPage(),
+                            builder: (context) =>SettingPage(audioPlayer: widget.audioPlayer),
                           ));
                     },
                     icon: const Icon(

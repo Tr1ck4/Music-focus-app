@@ -9,13 +9,14 @@ import 'Song.dart';
 import 'database.dart';
 
 class MeditationPage extends StatefulWidget {
+  AudioPlayer audioPlayer = AudioPlayer();
   List<Song>meditation = [];
   List<Song>study = [];
   List<Song>workout = [];
   List<Song>sleep = [];
   List<Song>liked = [];
   List<Song>added = [];
-  MeditationPage({super.key,required this.meditation,required this.study,required this.workout, required this.sleep, required this.added,required this.liked});
+  MeditationPage({super.key,required this.meditation,required this.study,required this.workout, required this.sleep, required this.added,required this.liked,required this.audioPlayer});
   @override
   State<MeditationPage> createState() => _MeditationPageState();
 }
@@ -23,7 +24,6 @@ class _MeditationPageState extends State<MeditationPage> {
   int index = 0;
   Timer? countdownTimer;
   Duration myDuration = const Duration(days: 0);
-  final _audioPlayer = AudioPlayer();
   bool isPlaying = false;
   Duration duration = Duration.zero;
   Duration position = Duration.zero;
@@ -31,31 +31,31 @@ class _MeditationPageState extends State<MeditationPage> {
   void initState() {
     super.initState();
     setAudio();
-    _audioPlayer.onPlayerStateChanged.listen((state) {
+    widget.audioPlayer.onPlayerStateChanged.listen((state) {
       setState(() {
         isPlaying = state == PlayerState.playing;
       });
     });
-    _audioPlayer.onDurationChanged.listen((newDuration) {
+    widget.audioPlayer.onDurationChanged.listen((newDuration) {
       setState(() {
         duration = newDuration;
       });
     });
-    _audioPlayer.onPositionChanged.listen((newPosition) {
+    widget.audioPlayer.onPositionChanged.listen((newPosition) {
       position = newPosition;
     });
-    _audioPlayer.onPlayerComplete.listen((event) {
+    widget.audioPlayer.onPlayerComplete.listen((event) {
       position = Duration.zero;
       index++;
       if (index >= widget.meditation.length) {
         index = 0;
       }
-      _audioPlayer.play(AssetSource(widget.meditation[index].asset));
+      widget.audioPlayer.play(AssetSource(widget.meditation[index].asset));
     });
     startTimer();
   }
   Future<void> setAudio() async {
-    _audioPlayer.setSourceAsset(widget.meditation[index].asset);
+    widget.audioPlayer.setSourceAsset(widget.meditation[index].asset);
   }
 
   void reset() {
@@ -90,7 +90,7 @@ class _MeditationPageState extends State<MeditationPage> {
 
   @override
   void dispose() {
-    _audioPlayer.dispose();
+    widget.audioPlayer.dispose();
     super.dispose();
   }
 
@@ -165,11 +165,8 @@ class _MeditationPageState extends State<MeditationPage> {
                         IconButton(
                             focusNode: FocusNode(),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          MyHomePage()));
+                              widget.audioPlayer.stop();
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage()));
                             },
                             icon: const Icon(
                               Icons.arrow_back_ios_new,
@@ -218,11 +215,8 @@ class _MeditationPageState extends State<MeditationPage> {
                             )),
                         IconButton(
                             onPressed: () {
-                              Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SettingPage(),
-                      ));
+                              widget.audioPlayer.stop();
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => SettingPage(audioPlayer: widget.audioPlayer),));
                             },
                             icon: const Icon(
                               Icons.settings,
@@ -247,8 +241,8 @@ class _MeditationPageState extends State<MeditationPage> {
                       onChanged: (value) {
                         setState(() async {
                           final position = Duration(seconds: value.toInt());
-                          await _audioPlayer.seek(position);
-                          await _audioPlayer.resume();
+                          await  widget.audioPlayer.seek(position);
+                          await  widget.audioPlayer.resume();
                         });
                       }),
                 ),
@@ -302,9 +296,9 @@ class _MeditationPageState extends State<MeditationPage> {
                           color: Colors.white),
                       onPressed: () async {
                         if (isPlaying) {
-                          await _audioPlayer.pause();
+                          await  widget.audioPlayer.pause();
                         } else {
-                          await _audioPlayer.resume();
+                          await  widget.audioPlayer.resume();
                         }
                       },
                     ),
@@ -334,7 +328,7 @@ class _MeditationPageState extends State<MeditationPage> {
                 child: Playlist(
                     list_name: 'Meditation',
                     playlist: widget.meditation,
-                    audioPlayer: _audioPlayer,
+                    audioPlayer:  widget.audioPlayer,
                     liked:widget.liked,
                 ),
               ),

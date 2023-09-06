@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cs486/database.dart';
 
 import 'SettingPage.dart';
@@ -42,6 +43,7 @@ class CustomModeButton extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
+  AudioPlayer audioPlayer = AudioPlayer();
   List<Song>meditation=[];
   List<Song>study=[];
   List<Song>sleep=[];
@@ -66,6 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState(){
     super.initState();
     callData();
+    widget.audioPlayer.stop();
   }
   @override
   Widget build(BuildContext context) {
@@ -94,19 +97,19 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisSize: MainAxisSize.max,
             children: [
               CustomModeButton(mod: "assets/meditationbox.png", text: "Meditation", onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => MeditationPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MeditationPage(audioPlayer: widget.audioPlayer,meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked),));
               },),
               const SizedBox(height: 20,),
               CustomModeButton(mod: "assets/workoutbox.png", text: "Workout", onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => WorkoutPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => WorkoutPage(audioPlayer: widget.audioPlayer,meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked),));
               },),
               const SizedBox(height: 20,),
               CustomModeButton(mod: "assets/studybox.png", text: "Study", onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => StudyPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => StudyPage(audioPlayer: widget.audioPlayer,meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked),));
               },),
               const SizedBox(height: 20,),
               CustomModeButton(mod: "assets/sleepbox.png", text: "Sleep", onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => SleepPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SleepPage(audioPlayer: widget.audioPlayer,meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked),));
               },),
             ],
           ),
@@ -119,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SettingPage(),
+                        builder: (context) => SettingPage(audioPlayer: widget.audioPlayer),
                       ));
                 },
                 icon: const Icon(

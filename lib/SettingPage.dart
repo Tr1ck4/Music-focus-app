@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cs486/Homepage.dart';
 import 'package:cs486/ImportPage.dart';
 import 'package:cs486/LikedTrackPage.dart';
@@ -9,13 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SettingPage extends StatefulWidget {
+  late AudioPlayer audioPlayer;
   List<Song>meditation = [];
   List<Song>study = [];
   List<Song>workout = [];
   List<Song>sleep = [];
   List<Song>liked = [];
   List<Song>added = [];
-  SettingPage({super.key});
+  SettingPage({super.key,required this.audioPlayer});
 
   @override
   State<SettingPage> createState() => _SettingPageState();
@@ -81,7 +83,7 @@ class _SettingPageState extends State<SettingPage> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => PlaylistSongPage(
-                                  list_name: 'Liked Track', name: widget.liked),
+                                  list_name: 'Liked Track', name: widget.liked,audioPlayer: widget.audioPlayer),
                             ));
                       },
                       child: Container(
@@ -134,7 +136,7 @@ class _SettingPageState extends State<SettingPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PlaylistPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked),
+                              builder: (context) => PlaylistPage(audioPlayer: widget.audioPlayer,meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked),
                             ));
                       },
                       child: Container(
@@ -187,7 +189,7 @@ class _SettingPageState extends State<SettingPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ImportPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked),
+                              builder: (context) => ImportPage(audioPlayer: widget.audioPlayer,meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked),
                             ));
                       },
                       child: Container(

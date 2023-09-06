@@ -5,6 +5,7 @@ import 'Song.dart';
 import 'database.dart';
 
 class PlaylistPage extends StatefulWidget {
+  late AudioPlayer audioPlayer;
   List<Song>meditation = [];
   List<Song>study = [];
   List<Song>workout = [];
@@ -12,7 +13,7 @@ class PlaylistPage extends StatefulWidget {
   List<Song>liked = [];
   List<Song>added = [];
   List<Playlist>album = [];
-  PlaylistPage({super.key,required this.meditation,required this.study,required this.workout, required this.sleep, required this.added,required this.liked});
+  PlaylistPage({super.key,required this.audioPlayer,required this.meditation,required this.study,required this.workout, required this.sleep, required this.added,required this.liked});
 
   @override
   State<PlaylistPage> createState() => _PlaylistPageState();
@@ -58,7 +59,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
           ),
           Padding(
               padding: const EdgeInsets.all(40),
-              child: Album(album_name: 'Default', album: widget.album,meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked)),
+              child: Album(audioPlayer: widget.audioPlayer,album_name: 'Default', album: widget.album,meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked)),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 20, 0, 40),
             child: Container(
@@ -68,7 +69,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SettingPage(),
+                            builder: (context) => SettingPage(audioPlayer: widget.audioPlayer),
                           ));
                     },
                     icon: const Icon(

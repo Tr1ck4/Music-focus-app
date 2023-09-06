@@ -1,16 +1,18 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cs486/SettingPage.dart';
 import 'package:cs486/Song.dart';
 import 'package:cs486/database.dart';
 import 'package:flutter/material.dart';
 
 class ImportPage extends StatefulWidget {
+  late AudioPlayer audioPlayer;
   List<Song>meditation = [];
   List<Song>study = [];
   List<Song>workout = [];
   List<Song>sleep = [];
   List<Song>liked = [];
   List<Song>added = [];
-  ImportPage({super.key,required this.meditation,required this.study,required this.workout, required this.sleep, required this.added,required this.liked});
+  ImportPage({super.key,required this.audioPlayer,required this.meditation,required this.study,required this.workout, required this.sleep, required this.added,required this.liked});
   @override
   State<ImportPage> createState() => _ImportPageState();
 }
@@ -143,7 +145,7 @@ class _ImportPageState extends State<ImportPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => SettingPage(),
+                                  builder: (context) => SettingPage(audioPlayer: widget.audioPlayer),
                                 ));
                           },
                           icon: const Icon(
