@@ -65,8 +65,8 @@ class _ImportPageState extends State<ImportPage> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    added.add(Song('Song ${added.length + 1}',
-                        _textController.text, false));
+                    added.add(Song(name:'Song ${added.length + 1}',
+                        asset:_textController.text, liked:false));
                     _textController.clear();
                     showDialog(
                       context: context,

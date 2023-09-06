@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'Song.dart';
+import 'database.dart';
 
 class SleepPage extends StatefulWidget {
   const SleepPage({super.key});
@@ -22,9 +23,13 @@ class _SleepPageState extends State<SleepPage> {
   bool isPlaying = false;
   Duration duration = Duration.zero;
   Duration position = Duration.zero;
+  void callData ()async{
+    sleep = await DBProvider().readPlaylist("Sleep");
+  }
   @override
   void initState() {
     super.initState();
+    callData();
     setAudio();
     _audioPlayer.onPlayerStateChanged.listen((state) {
       setState(() {

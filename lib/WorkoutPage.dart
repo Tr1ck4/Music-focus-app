@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'Song.dart';
+import 'database.dart';
 
 class WorkoutPage extends StatefulWidget {
   const WorkoutPage({super.key});
@@ -22,9 +23,13 @@ class _WorkoutPageState extends State<WorkoutPage> {
   bool isPlaying = false;
   Duration duration = Duration.zero;
   Duration position = Duration.zero;
+  void callData ()async{
+    workout = await DBProvider().readPlaylist("Workout");
+  }
   @override
   void initState() {
     super.initState();
+    callData();
     setAudio();
     _audioPlayer.onPlayerStateChanged.listen((state) {
       setState(() {

@@ -137,7 +137,7 @@ class _SettingPageState extends State<SettingPage> {
                             ]),
                         child: const Center(
                           child: Text(
-                            'Playists',
+                            'Playlists',
                             style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,

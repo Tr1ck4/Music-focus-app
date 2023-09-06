@@ -1,33 +1,28 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cs486/PlaylistSong.dart';
+import 'package:cs486/database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Song {
-  final String name;
-  final String asset;
-  late bool liked;
-  Song(this.name, this.asset, this.liked);
+  late String name = '';
+  late String asset='';
+  late bool liked=false;
+  Song({required this.name, required this.asset, required this.liked});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'asset': asset,
+      'liked': liked?1:0,
+    };
+  }
 }
 
-List<Song> meditation = [
-  Song('Forest sounds', 'audio/Meditation/forest_sounds.mp3', false),
-  Song('Waterfall sounds', 'audio/Meditation/waterfall_sounds.mp3', false)
-];
-List<Song> sleep = [
-  Song('Sleeping City', 'audio/Sleep/SleepingCity_JayLounge.mp3', false),
-  Song('WYS', 'audio/Sleep/WYS_LoneftEase.mp3', false)
-];
-List<Song> workout = [
-  Song('Conquer', 'audio/Workout/Conquer_Hopex.mp3', false),
-  Song(
-      'IDidThatDiamond_Ortiz', 'audio/Workout/IDidThatDiamond_Ortiz.mp3', false)
-];
-List<Song> study = [
-  Song('Causes_geek', 'audio/Study/Causes_geek.mp3', false),
-  Song('VoiceOfTheForest_YasumuxNo',
-      'audio/Study/VoiceOfTheForest_YasumuxNo Spirit.mp3', false)
-];
+List<Song> meditation = [];
+List<Song> sleep = [];
+List<Song> workout = [];
+List<Song> study = [];
 List<Song> liked = [];
 List<Song> added = [];
 
@@ -40,23 +35,21 @@ class MyIconButton extends StatefulWidget {
 }
 
 class _MyIconButtonState extends State<MyIconButton> {
-
+  void update()async{
+    await DBProvider().updateSong(widget.song.liked?1:0,widget.song.asset);
+    liked = await DBProvider().readLiked();
+    for(int i = 0; i  < liked.length;  i++){
+      print('${liked[i].name} ${liked[i].liked} ${widget.song.liked}');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {
-        setState(() {
+        setState((){
           if(widget.playlist !='Added Tracks'){
             widget.song.liked =!widget.song.liked;
-            if(widget.song.liked){
-              liked.add(Song(
-                  widget.song.name,
-                  widget.song.asset,
-                  widget.song.liked));
-            }
-            else{
-              liked.removeWhere((element) => element.name == widget.song.name);
-            }
+            update();
           }
         });
       },
@@ -79,8 +72,8 @@ class _MyIconButtonState extends State<MyIconButton> {
 class Playlist extends StatefulWidget {
   final AudioPlayer audioPlayer;
   final String list_name;
-  final List<Song> playlist;
-  const Playlist(
+  late List<Song> playlist;
+  Playlist(
       {super.key,
       required this.list_name,
       required this.playlist,
@@ -91,19 +84,6 @@ class Playlist extends StatefulWidget {
 
 class _PlaylistState extends State<Playlist> {
   late String _path;
-  void _likeOrNot(int index) {
-    setState(() {
-      if (widget.list_name == 'Added Tracks') {
-        return;
-      }
-      if (widget.playlist[index].liked == false) {
-        widget.playlist[index].liked == true;
-      } else {
-        widget.playlist[index].liked == false;
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     if (widget.playlist.isEmpty) {
@@ -141,8 +121,8 @@ class _PlaylistState extends State<Playlist> {
                   style: const TextStyle(color: Colors.white, fontSize: 12),
                 ),
                 trailing: MyIconButton(playlist: widget.list_name,song: widget.playlist[index]),
-                onTap: () async {
-                  setState(() {
+                onTap: ()  {
+                  setState(() async{
                     if (widget.list_name == 'Added Tracks') {
                       widget.audioPlayer
                           .play(UrlSource(widget.playlist[index].asset));
@@ -171,6 +151,19 @@ class Album extends StatefulWidget {
 }
 
 class _AlbumState extends State<Album> {
+  void reload()async{
+    meditation = await DBProvider().readPlaylist("Meditation");
+    sleep = await DBProvider().readPlaylist("Sleep");
+    study = await DBProvider().readPlaylist("Study");
+    workout = await DBProvider().readPlaylist("Workout");
+    liked = await DBProvider().readLiked();
+    added = await DBProvider().readPlaylist("Added");
+  }
+  @override
+  void initState(){
+    super.initState();
+    reload();
+  }
   @override
   Widget build(BuildContext context) {
     return ListView.builder(

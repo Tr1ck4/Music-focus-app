@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'Homepage.dart';
-
-void main() {
+import 'Song.dart';
+import 'database.dart';
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  meditation = await DBProvider().readPlaylist("Meditation");
+  sleep = await DBProvider().readPlaylist("Sleep");
+  study = await DBProvider().readPlaylist("Study");
+  workout = await DBProvider().readPlaylist("Workout");
+  liked = await DBProvider().readLiked();
+  added = await DBProvider().readPlaylist("Added");
   runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

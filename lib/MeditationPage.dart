@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'Song.dart';
+import 'database.dart';
 
 class MeditationPage extends StatefulWidget {
   const MeditationPage({super.key});
@@ -49,7 +50,6 @@ class _MeditationPageState extends State<MeditationPage> {
     });
     startTimer();
   }
-
   Future<void> setAudio() async {
     _audioPlayer.setSourceAsset(meditation[index].asset);
   }
