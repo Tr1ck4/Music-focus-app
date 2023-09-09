@@ -25,17 +25,18 @@ class DBProvider {
   }
 
   Future _onCreate(Database db, int version) async {
-    const createUser = 'CREATE TABLE User(name TEXT,file TEXT,isLiked INTEGER,playlist TEXT);';
+    const createUser =
+        'CREATE TABLE User(name TEXT,file TEXT,isLiked INTEGER,playlist TEXT);';
     const populateHistory = '''INSERT INTO User(name, file, isLiked,playlist)
 VALUES
 	('Forest sounds',             'audio/Meditation/forest_sounds.mp3',                0,"Meditation"),
 	('Waterfall sounds',          'audio/Meditation/waterfall_sounds.mp3',             0,"Meditation"),
 	('Sleeping City',             'audio/Sleep/SleepingCity_JayLounge.mp3',            0,"Sleep"),
 	('WYS',                       'audio/Sleep/WYS_LoneftEase.mp3',                    0,"Sleep"),
-	('Conquer',                   'audio/Workout/Conquer_Hopex.mp3',                   0,"Workout"),
+	('WokHard',                   'audio/Workout/WokHard.mp3',                   0,"Workout"),
 	('IDidThatDiamond_Ortiz',     'audio/Workout/IDidThatDiamond_Ortiz.mp3',           0,"Workout"),
 	('Causes_geek',               'audio/Study/Causes_geek.mp3',                       0,"Study"),
-	('VoiceOfTheForest_YasumuxNo','audio/Study/VoiceOfTheForest_YasumuxNo Spirit.mp3', 0,"Study");''';
+	('SoItBegins','audio/Study/SoItBegins Lofi.mp3', 0,"Study");''';
 
     try {
       await db.execute(createUser);
@@ -53,42 +54,50 @@ VALUES
   Future<List<Song>> readPlaylist(String playlist) async {
     var dbClient = await db;
     final List<Map<String, dynamic>> rows = await dbClient.rawQuery(
-        'SELECT u.name AS name, u.file as asset, u.isLiked as liked FROM User u WHERE u.playlist = ?;',[playlist]);
+        'SELECT u.name AS name, u.file as asset, u.isLiked as liked FROM User u WHERE u.playlist = ?;',
+        [playlist]);
     return rows
         .map((row) => Song(
-        name: row['name'].toString(),
-        asset: row['asset'].toString(),
-        liked: row['liked']==1?true:false))
+            name: row['name'].toString(),
+            asset: row['asset'].toString(),
+            liked: row['liked'] == 1 ? true : false))
         .toList();
   }
+
   Future<List<Song>> readAll() async {
     var dbClient = await db;
     final List<Map<String, dynamic>> rows = await dbClient.rawQuery(
         'SELECT u.name AS name, u.file as asset, u.isLiked as liked FROM User u ;');
     return rows
         .map((row) => Song(
-        name: row['name'].toString(),
-        asset: row['asset'].toString(),
-        liked: row['liked']==1?true:false))
+            name: row['name'].toString(),
+            asset: row['asset'].toString(),
+            liked: row['liked'] == 1 ? true : false))
         .toList();
   }
-  updateSong(Song song)async{
+
+  updateSong(Song song) async {
     var dbClient = await db;
-    dbClient.rawQuery('UPDATE User SET isLiked =  ? WHERE file = ?', [song.liked,song.asset]);
+    dbClient.rawQuery('UPDATE User SET isLiked =  ? WHERE file = ?',
+        [song.liked, song.asset]);
   }
-  addSong(String name, bool isLiked,String asset,String playlist)async{
+
+  addSong(String name, bool isLiked, String asset, String playlist) async {
     var dbClient = await db;
-    dbClient.rawInsert('INSERT INTO User (name,file,isLiked,playlist) VALUES(?,?,?,?)', [name,asset,isLiked?1:0,playlist]);
+    dbClient.rawInsert(
+        'INSERT INTO User (name,file,isLiked,playlist) VALUES(?,?,?,?)',
+        [name, asset, isLiked ? 1 : 0, playlist]);
   }
+
   Future<List<Song>> readLiked() async {
     var dbClient = await db;
     final List<Map<String, dynamic>> rows = await dbClient.rawQuery(
         'SELECT u.name AS name, u.file as asset, u.isLiked as liked FROM User u WHERE u.isLiked = 1;');
     return rows
         .map((row) => Song(
-        name: row['name'].toString(),
-        asset: row['asset'].toString(),
-        liked: row['liked']==1?true:false))
+            name: row['name'].toString(),
+            asset: row['asset'].toString(),
+            liked: row['liked'] == 1 ? true : false))
         .toList();
   }
 }
