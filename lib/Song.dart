@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class Song {
   late String name = '';
-  late String asset='';
+  late String asset = '';
   late bool liked = false;
   Song({required this.name, required this.asset, required this.liked});
 
@@ -14,31 +14,37 @@ class Song {
     return {
       'name': name,
       'asset': asset,
-      'liked': liked?1:0,
+      'liked': liked ? 1 : 0,
     };
   }
 }
+
 class MyIconButton extends StatefulWidget {
   late Song song;
   late String playlist;
   late List<Song> liked;
-  MyIconButton({super.key,required this.song,required this.playlist,required this.liked});
+  MyIconButton(
+      {super.key,
+      required this.song,
+      required this.playlist,
+      required this.liked});
   @override
   State<MyIconButton> createState() => _MyIconButtonState();
 }
 
 class _MyIconButtonState extends State<MyIconButton> {
-  void update()async{
+  void update() async {
     await DBProvider().updateSong(widget.song);
     widget.liked = await DBProvider().readLiked();
     print(widget.liked);
   }
+
   @override
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {
-        setState((){
-          if(widget.playlist !='Added Tracks'){
+        setState(() {
+          if (widget.playlist != 'Added Tracks') {
             widget.song.liked = !widget.song.liked;
             update();
           }
@@ -46,20 +52,21 @@ class _MyIconButtonState extends State<MyIconButton> {
       },
       icon: widget.song.liked
           ? Image.asset(
-        "assets/icon/liked.png",
-        height: 20,
-        width: 20,
-        color: Colors.red,
-      )
+              "assets/icon/liked.png",
+              height: 20,
+              width: 20,
+              color: Colors.red,
+            )
           : Image.asset(
-        "assets/icon/notliked.png",
-        height: 20,
-        width: 20,
-        color: Colors.white,
-      ),
+              "assets/icon/notliked.png",
+              height: 20,
+              width: 20,
+              color: Colors.white,
+            ),
     );
   }
 }
+
 class Playlist extends StatefulWidget {
   List<Song> liked = [];
   final AudioPlayer audioPlayer;
@@ -70,8 +77,7 @@ class Playlist extends StatefulWidget {
       required this.list_name,
       required this.playlist,
       required this.audioPlayer,
-        required this.liked
-      });
+      required this.liked});
   @override
   State<Playlist> createState() => _PlaylistState();
 }
@@ -114,9 +120,12 @@ class _PlaylistState extends State<Playlist> {
                   widget.list_name,
                   style: const TextStyle(color: Colors.white, fontSize: 12),
                 ),
-                trailing: MyIconButton(playlist: widget.list_name,song: widget.playlist[index],liked: widget.liked),
-                onTap: ()  {
-                  setState(() async{
+                trailing: MyIconButton(
+                    playlist: widget.list_name,
+                    song: widget.playlist[index],
+                    liked: widget.liked),
+                onTap: () {
+                  setState(() async {
                     if (widget.list_name == 'Added Tracks') {
                       widget.audioPlayer
                           .play(UrlSource(widget.playlist[index].asset));
@@ -133,21 +142,25 @@ class _PlaylistState extends State<Playlist> {
 
 class Album extends StatefulWidget {
   late AudioPlayer audioPlayer;
-  List<Song>meditation = [];
-  List<Song>study = [];
-  List<Song>workout = [];
-  List<Song>sleep = [];
-  List<Song>liked = [];
-  List<Song>added = [];
+  List<Song> meditation = [];
+  List<Song> study = [];
+  List<Song> workout = [];
+  List<Song> sleep = [];
+  List<Song> liked = [];
+  List<Song> added = [];
   List<Playlist> album;
   final String album_name;
-  Album({
-    super.key,
-    required this.album,
-    required this.album_name,
-    required this.meditation,required this.study,required this.workout, required this.sleep, required this.added,required this.liked,
-    required this.audioPlayer
-  });
+  Album(
+      {super.key,
+      required this.album,
+      required this.album_name,
+      required this.meditation,
+      required this.study,
+      required this.workout,
+      required this.sleep,
+      required this.added,
+      required this.liked,
+      required this.audioPlayer});
   @override
   State<Album> createState() => _AlbumState();
 }
@@ -156,197 +169,191 @@ class _AlbumState extends State<Album> {
   @override
   Widget build(BuildContext context) {
     return ListView(
-        padding: EdgeInsets.symmetric(vertical: 30),
-        children: [
-          ListTile(
-            leading: Image.asset(
-              "assets/icon/playlist.png",
-              height: 70,
-              width: 70,
-              color: Colors.cyanAccent.shade700,
-            ),
-            title: Text(
-              "Meditation",
-              style: GoogleFonts.openSans(
-                  fontSize: 20,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
-            trailing: Text(
-              '${widget.meditation.length.toString()} tracks',
-              style: GoogleFonts.openSans(
-                  fontSize: 15,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
-            onTap: () async {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => PlaylistSongPage(
-                        list_name: "Meditation",
-                        name: widget.meditation,audioPlayer: widget.audioPlayer,)));
-            },
+      padding: EdgeInsets.symmetric(vertical: 30),
+      children: [
+        ListTile(
+          leading: Image.asset(
+            "assets/icon/playlist.png",
+            height: 70,
+            width: 70,
+            color: Colors.cyanAccent.shade700,
           ),
-          const SizedBox(height: 40,),
-          ListTile(
-            leading: Image.asset(
-              "assets/icon/playlist.png",
-              height: 70,
-              width: 70,
-              color: Colors.cyanAccent.shade700,
-            ),
-            title: Text(
-              "Study",
-              style: GoogleFonts.openSans(
-                  fontSize: 20,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
-            trailing: Text(
-              '${widget.study.length.toString()} tracks',
-              style: GoogleFonts.openSans(
-                  fontSize: 15,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
-            onTap: () async {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => PlaylistSongPage(
-                        list_name: "Study",
-                        name: widget.study,audioPlayer: widget.audioPlayer,)));
-            },
+          title: Text(
+            "Meditation",
+            style: GoogleFonts.openSans(
+                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 40,),
-          ListTile(
-            leading: Image.asset(
-              "assets/icon/playlist.png",
-              height: 70,
-              width: 70,
-              color: Colors.cyanAccent.shade700,
-            ),
-            title: Text(
-              "Workout",
-              style: GoogleFonts.openSans(
-                  fontSize: 20,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
-            trailing: Text(
-              '${widget.workout.length.toString()} tracks',
-              style: GoogleFonts.openSans(
-                  fontSize: 15,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
-            onTap: () async {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => PlaylistSongPage(
-                        list_name: "Workout",
-                        name: widget.workout,audioPlayer: widget.audioPlayer,)));
-            },
+          trailing: Text(
+            '${widget.meditation.length.toString()} tracks',
+            style: GoogleFonts.openSans(
+                fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 40,),
-          ListTile(
-            leading: Image.asset(
-              "assets/icon/playlist.png",
-              height: 70,
-              width: 70,
-              color: Colors.cyanAccent.shade700,
-            ),
-            title: Text(
-              "Sleep",
-              style: GoogleFonts.openSans(
-                  fontSize: 20,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
-            trailing: Text(
-              '${widget.sleep.length.toString()} tracks',
-              style: GoogleFonts.openSans(
-                  fontSize: 15,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
-            onTap: () async {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => PlaylistSongPage(
-                        list_name: "Sleep",
-                        name: widget.sleep,audioPlayer: widget.audioPlayer,)));
-            },
+          onTap: () async {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PlaylistSongPage(
+                          list_name: "Meditation",
+                          name: widget.meditation,
+                          audioPlayer: widget.audioPlayer,
+                        )));
+          },
+        ),
+        const SizedBox(
+          height: 40,
+        ),
+        ListTile(
+          leading: Image.asset(
+            "assets/icon/playlist.png",
+            height: 70,
+            width: 70,
+            color: Colors.cyanAccent.shade700,
           ),
-          const SizedBox(height: 40,),
-          ListTile(
-            leading: Image.asset(
-              "assets/icon/playlist.png",
-              height: 70,
-              width: 70,
-              color: Colors.cyanAccent.shade700,
-            ),
-            title: Text(
-              "Favourite",
-              style: GoogleFonts.openSans(
-                  fontSize: 20,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
-            trailing: Text(
-              '${widget.liked.length.toString()} tracks',
-              style: GoogleFonts.openSans(
-                  fontSize: 15,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
-            onTap: () async {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => PlaylistSongPage(
+          title: Text(
+            "Study",
+            style: GoogleFonts.openSans(
+                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          trailing: Text(
+            '${widget.study.length.toString()} tracks',
+            style: GoogleFonts.openSans(
+                fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          onTap: () async {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PlaylistSongPage(
+                          list_name: "Study",
+                          name: widget.study,
+                          audioPlayer: widget.audioPlayer,
+                        )));
+          },
+        ),
+        const SizedBox(
+          height: 40,
+        ),
+        ListTile(
+          leading: Image.asset(
+            "assets/icon/playlist.png",
+            height: 70,
+            width: 70,
+            color: Colors.cyanAccent.shade700,
+          ),
+          title: Text(
+            "Workout",
+            style: GoogleFonts.openSans(
+                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          trailing: Text(
+            '${widget.workout.length.toString()} tracks',
+            style: GoogleFonts.openSans(
+                fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          onTap: () async {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PlaylistSongPage(
+                          list_name: "Workout",
+                          name: widget.workout,
+                          audioPlayer: widget.audioPlayer,
+                        )));
+          },
+        ),
+        const SizedBox(
+          height: 40,
+        ),
+        ListTile(
+          leading: Image.asset(
+            "assets/icon/playlist.png",
+            height: 70,
+            width: 70,
+            color: Colors.cyanAccent.shade700,
+          ),
+          title: Text(
+            "Sleep",
+            style: GoogleFonts.openSans(
+                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          trailing: Text(
+            '${widget.sleep.length.toString()} tracks',
+            style: GoogleFonts.openSans(
+                fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          onTap: () async {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PlaylistSongPage(
+                          list_name: "Sleep",
+                          name: widget.sleep,
+                          audioPlayer: widget.audioPlayer,
+                        )));
+          },
+        ),
+        const SizedBox(
+          height: 40,
+        ),
+        ListTile(
+          leading: Image.asset(
+            "assets/icon/playlist.png",
+            height: 70,
+            width: 70,
+            color: Colors.cyanAccent.shade700,
+          ),
+          title: Text(
+            "Favourite",
+            style: GoogleFonts.openSans(
+                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          trailing: Text(
+            '${widget.liked.length.toString()} tracks',
+            style: GoogleFonts.openSans(
+                fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          onTap: () async {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PlaylistSongPage(
                         list_name: "Favourite",
-                        name: widget.liked,audioPlayer: widget.audioPlayer)));
-            },
+                        name: widget.liked,
+                        audioPlayer: widget.audioPlayer)));
+          },
+        ),
+        const SizedBox(
+          height: 40,
+        ),
+        ListTile(
+          leading: Image.asset(
+            "assets/icon/playlist.png",
+            height: 70,
+            width: 70,
+            color: Colors.cyanAccent.shade700,
           ),
-          const SizedBox(height: 40,),
-          ListTile(
-            leading: Image.asset(
-              "assets/icon/playlist.png",
-              height: 70,
-              width: 70,
-              color: Colors.cyanAccent.shade700,
-            ),
-            title: Text(
-              "Added ",
-              style: GoogleFonts.openSans(
-                  fontSize: 20,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
-            trailing: Text(
-              '${widget.added.length.toString()} tracks',
-              style: GoogleFonts.openSans(
-                  fontSize: 15,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
-            onTap: () async {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => PlaylistSongPage(
-                        list_name: "Added tracks",
-                        name: widget.added,audioPlayer: widget.audioPlayer,)));
-            },
-          )
-        ],
-
+          title: Text(
+            "Added ",
+            style: GoogleFonts.openSans(
+                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          trailing: Text(
+            '${widget.added.length.toString()} tracks',
+            style: GoogleFonts.openSans(
+                fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          onTap: () async {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PlaylistSongPage(
+                          list_name: "Added tracks",
+                          name: widget.added,
+                          audioPlayer: widget.audioPlayer,
+                        )));
+          },
+        )
+      ],
     );
   }
 }
-
-
