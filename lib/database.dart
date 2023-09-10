@@ -33,10 +33,10 @@ VALUES
 	('Waterfall sounds',          'audio/Meditation/waterfall_sounds.mp3',             0,"Meditation"),
 	('Sleeping City',             'audio/Sleep/SleepingCity_JayLounge.mp3',            0,"Sleep"),
 	('WYS',                       'audio/Sleep/WYS_LoneftEase.mp3',                    0,"Sleep"),
-	('WokHard',                   'audio/Workout/WokHard.mp3',                   0,"Workout"),
+	('WokHard',                   'audio/Workout/WokHard.mp3',                         0,"Workout"),
 	('IDidThatDiamond_Ortiz',     'audio/Workout/IDidThatDiamond_Ortiz.mp3',           0,"Workout"),
 	('Causes_geek',               'audio/Study/Causes_geek.mp3',                       0,"Study"),
-	('SoItBegins','audio/Study/SoItBegins Lofi.mp3', 0,"Study");''';
+	('SoItBegins',                'audio/Study/SoItBeginsLofi.mp3',                    0,"Study");''';
 
     try {
       await db.execute(createUser);

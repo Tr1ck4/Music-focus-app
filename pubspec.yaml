@@ -90,9 +90,11 @@ flutter:
     - assets/audio/Sleep/SleepingCity_JayLounge.mp3
     - assets/audio/Sleep/WYS_LoneftEase.mp3
     - assets/audio/Study/Causes_geek.mp3
-    - assets/audio/Study/VoiceOfTheForest_YasumuxNo Spirit.mp3
+    - assets/audio/Study/VoiceOfTheForest_YasumuxNoSpirit.mp3
+    - assets/audio/Study/SoItBeginsLofi.mp3
     - assets/audio/Workout/Conquer_Hopex.mp3
     - assets/audio/Workout/IDidThatDiamond_Ortiz.mp3
+    - assets/audio/Workout/WokHard.mp3
     - assets/Sleep.png
     - assets/Study.png
     - assets/Workout.png
