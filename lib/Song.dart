@@ -347,7 +347,7 @@ class _AlbumState extends State<Album> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => PlaylistSongPage(
-                          list_name: "Added tracks",
+                          list_name: "Added Tracks",
                           name: widget.added,
                           audioPlayer: widget.audioPlayer,
                         )));

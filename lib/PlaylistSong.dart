@@ -118,7 +118,7 @@ class _PlaylistSongPageState extends State<PlaylistSongPage> {
                                   MaterialPageRoute(
                                       builder: (context) => SleepPage(meditation: widget.meditation,workout: widget.workout,study: widget.study,sleep: widget.sleep,added: widget.added,liked: widget.liked, audioPlayer: widget.audioPlayer,)));
                             }
-                            if (widget.list_name == 'Liked Tracks') {
+                            if (widget.list_name == 'Favourite') {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
